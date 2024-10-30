@@ -32,24 +32,88 @@
 
 </div>
 
-## Introduction
-
 ![](assets/architecture.jpeg)
 
-<div style="display: flex; justify-content: space-around;">
-  <img src="assets/modelscope/1.gif" alt="GIF 1" width="25%">
-  <img src="assets/modelscope/2.gif" alt="GIF 2" width="25%">
+
+
+<div style="display: flex; text-align: center; gap: 5px; ">
+
+  <figure style="width: 25%; margin: 0;">
+      <figcaption>Lavie</figcaption>
+    <img src="assets/lavie/1.gif" alt="Lavie GIF" width="100%">
+
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+      <figcaption>VideoCrafter2</figcaption>
+    <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2 GIF" width="100%">
+
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+      <figcaption>ModelScope (Base Model)</figcaption>
+    <img src="assets/modelscope/1.gif" alt="ModelScope GIF" width="100%">
+
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+    <figcaption>Demo</figcaption>
+    <img src="assets/demo/1.gif" alt="Demo GIF" width="100%">
+  </figure>
 </div>
+<h3 align="center"> Slow motion flower petals fall from a blossom, landing softly on the ground.</h3>
 
 
-![](assets/modelscope/1.gif)
-![](assets/modelscope/2.gif)
-![](assets/modelscope/3.gif)
+<div style="display: flex; text-align: center; gap: 5px; ">
+
+  <figure style="width: 25%; margin: 0;">
+    <img src="assets/lavie/2.gif" alt="Lavie GIF" width="100%">
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+    <img src="assets/videocrafter2/2.gif" alt="VideoCrafter2 GIF" width="100%">
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+    <img src="assets/modelscope/2.gif" alt="ModelScope GIF" width="100%">
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+    <img src="assets/demo/2.gif" alt="Demo GIF" width="100%">
+  </figure>
+</div>
+<h3 align="center">An old man with white hair is shown speaking.</h3>
+
+
+<div style="display: flex; text-align: center; gap: 5px; ">
+
+  <figure style="width: 25%; margin: 0;">
+    <img src="assets/lavie/3.gif" alt="Lavie GIF" width="100%">
+
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+    <img src="assets/videocrafter2/3.gif" alt="VideoCrafter2 GIF" width="100%">
+
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+    <img src="assets/modelscope/3.gif" alt="ModelScope GIF" width="100%">
+
+  </figure>
+
+  <figure style="width: 25%; margin: 0;">
+    <img src="assets/demo/3.gif" alt="Demo GIF" width="100%">
+  </figure>
+</div>
+<h3 align="center">Jockeys racing.</h3>
+
+
+
+
+
 <!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 #### Install ffmpeg

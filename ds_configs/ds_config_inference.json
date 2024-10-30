@@ -1,0 +1,16 @@
+{
+    "fp16":{
+      "enabled": true,
+      "auto_cast": true
+    },
+  
+    "zero_optimization":{
+      "stage": 2,
+      "reduce_bucket_size": 5e8,
+      "zero_hpz_partition_size": 4,
+      "contiguous_gradients": true,
+      "overlap_comm": true,
+      "reduce_scatter": true
+    },
+    "steps_per_print": 1
+  }

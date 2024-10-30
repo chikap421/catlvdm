@@ -1,0 +1,164 @@
+TASK_TYPE: train_t2v_deepspeed
+ENABLE: False
+use_ema: False
+num_workers: 16
+
+max_frames: 16
+sample_fps: 3
+resolution: [256,256]
+
+
+train_dataset: {
+    'type': 'WebVid10M',
+    'csv_path': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/data/webvid/train_2M/train_real.csv',
+    'video_folder': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/data/webvid/train_2M/videos',
+    'resolution': [256,256], 
+    'sample_n_frames': 16,
+}
+
+
+embedder: {
+    'type': 'FrozenOpenCLIPEmbedder',
+    'layer': 'penultimate',
+    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
+    # 'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
+    'freeze': True
+}
+
+temporal_embedder: {
+    'type': 'TemporalEmbedder',
+    'layer': 'penultimate',
+    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
+    # 'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
+    'freeze': False
+}
+
+clip_visual: {
+    'type': 'FrozenOpenCLIPVisualEmbedder',
+    'layer': 'penultimate',
+    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
+    # 'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
+    'freeze': True,
+}
+
+
+auto_encoder: {
+    'type': 'AutoencoderKL',
+    'ddconfig': {
+        'double_z': True, 
+        'z_channels': 4,
+        'resolution': 256, 
+        'in_channels': 3,
+        'out_ch': 3, 
+        'ch': 128, 
+        'ch_mult': [1, 2, 4, 4],
+        'num_res_blocks': 2, 
+        'attn_resolutions': [], 
+        'dropout': 0.0,
+        'video_kernel_size': [3, 1, 1]
+    },
+    'embed_dim': 4,
+    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/VQGAN_autoencoder.pth'
+    # 'pretrained': 'models/modelscopet2v/VQGAN_autoencoder.pth'
+}
+
+UNet: {
+    'type': 'UNetSD_T2V_DEMO',
+    'in_dim': 4,
+    'y_dim': 1024,
+    'dim': 320,
+    'upper_len': 128,
+    'context_dim': 1024,
+    'out_dim': 4,
+    'dim_mult': [1, 2, 4, 4],
+    'num_heads': 8,
+    'default_fps': 8,
+    'head_dim': 64,
+    'num_res_blocks': 2,
+    'dropout': 0.1,
+    'misc_dropout': 0.4,
+    'temporal_attention': True,
+    'temporal_attn_times': 1,
+    'use_checkpoint': True,
+    'use_fps_condition': False,
+    'use_sim_mask': False
+}
+
+Diffusion: {
+    'type': 'DiffusionDDIM',
+    'schedule': 'linear_sd', # cosine
+    'schedule_param': {
+        'num_timesteps': 1000,
+        'init_beta': 0.00085,
+        'last_beta': 0.0120,
+        'zero_terminal_snr': False,
+    },
+    'mean_type': 'eps',
+    'loss_type': 'mse',
+    'var_type': 'fixed_small',
+    'rescale_timesteps': False,
+    'noise_strength': 0.0
+}
+
+
+Pretrain: {
+    'type': load_model_new,
+    'from_modelscope': True,
+    'resume_checkpoint': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/text2video_pytorch_model.pth',
+    # 'resume_checkpoint': 'models/modelscopet2v/text2video_pytorch_model.pth',
+}
+
+
+temporal_lr: 0.000001
+noise_strength: 0.1
+# classifier-free guidance
+p_zero: 0.1
+num_steps: 1000000
+
+use_zero_infer: True
+viz_interval: 1000        # 200
+save_ckp_interval: 2000   # 500
+
+# Log
+log_dir: "workspace"
+log_interval: 100
+seed: 8888
+
+
+
+mean: [0.5, 0.5, 0.5]
+std: [0.5, 0.5, 0.5]
+max_words: 1000
+prefetch_factor: 1
+ddim_timesteps: 50  # official: 250
+use_div_loss: False
+
+
+# Model
+scale_factor: 0.18215  
+use_fsdp: False 
+use_fp16: True
+temporal_attention: True
+
+
+negative_prompt: 'Distorted, discontinuous, Ugly, blurry, low resolution, motionless, static, disfigured, disconnected limbs, Ugly faces, incomplete arms'
+
+# training and optimizer
+ema_decay: 0.9999
+
+# lr: 5e-5
+weight_decay: 0.0
+# betas: (0.9, 0.999)
+# eps: 1.0e-8
+alpha: 0.7
+
+# scheduler
+warmup_steps: 10
+decay_mode: 'cosine'
+
+
+
+deepspeed_config: "ds_configs/ds_config_train.json"
+
+freeze: True
+resume_step: 267000

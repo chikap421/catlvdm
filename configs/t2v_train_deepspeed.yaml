@@ -10,10 +10,8 @@ freeze_unet: True
 
 train_dataset: {
     'type': 'WebVid10M',
-    'csv_path': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/data/webvid/train_2M/train_real.csv',
-    # 'csv_path': 'data/webvid/train_sample.csv',
-    'video_folder': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/data/webvid/train_2M/videos',
-    # 'video_folder': 'data/webvid/videos',
+    'csv_path': 'data/webvid/train_sample.csv',
+    'video_folder': 'data/webvid/videos',
     'resolution': [256,256], 
     'sample_n_frames': 16,
 }
@@ -22,24 +20,21 @@ train_dataset: {
 embedder: {
     'type': 'FrozenOpenCLIPEmbedder',
     'layer': 'penultimate',
-    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
-    # 'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
+    'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
     'freeze': True
 }
 
 motion_encoder: {
     'type': 'MotionEncoder',
     'layer': 'penultimate',
-    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
-    # 'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
+    'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
     'freeze': False
 }
 
 clip_visual: {
     'type': 'FrozenOpenCLIPVisualEmbedder',
     'layer': 'penultimate',
-    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
-    # 'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
+    'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
     'freeze': True,
 }
 
@@ -60,8 +55,7 @@ auto_encoder: {
         'video_kernel_size': [3, 1, 1]
     },
     'embed_dim': 4,
-    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/VQGAN_autoencoder.pth'
-    # 'pretrained': 'models/modelscopet2v/VQGAN_autoencoder.pth'
+    'pretrained': 'models/modelscopet2v/VQGAN_autoencoder.pth',
 }
 
 UNet: {
@@ -106,8 +100,7 @@ Diffusion: {
 Pretrain: {
     'type': load_model,
     'from_modelscope': True,
-    'resume_checkpoint': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/text2video_pytorch_model.pth',
-    # 'resume_checkpoint': 'models/modelscopet2v/text2video_pytorch_model.pth',
+    'resume_checkpoint': 'models/modelscopet2v/text2video_pytorch_model.pth',
 }
 
 
@@ -118,7 +111,7 @@ p_zero: 0.1
 num_steps: 1000000
 
 use_zero_infer: True
-save_ckp_interval: 200   # 500
+save_ckp_interval: 2000   # 500
 
 # Log
 log_dir: "workspace"
@@ -143,7 +136,9 @@ temporal_attention: True
 video_motion_weight: 0.1
 text_motion_weight: 0.1
 regularization_weight: 0.1
-stop_grad_index: 5
+
+
+stop_grad_index: 10
 
 
 negative_prompt: 'Distorted, discontinuous, Ugly, blurry, low resolution, motionless, static, disfigured, disconnected limbs, Ugly faces, incomplete arms'

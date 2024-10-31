@@ -35,10 +35,21 @@
 <p align="center"><sup>3</sup> Amazon, United States</p>
 
 <p align="center">Accepted at NeurIPS 2024</p>
+<p align="center">
+  <a href='https://pr-ryan.github.io/DEMO-project/'>
+    <img src='https://img.shields.io/badge/Project-Page-Green'>
+  </a>
+  <a href='https://arxiv.org/abs/your-arxiv-id'>
+    <img src='https://img.shields.io/badge/Paper-Arxiv-red'>
+  </a>
+</p>
 
 ---
 
 ![Architecture](assets/architecture.jpeg)
+
+---
+
 ### Slow motion flower petals fall from a blossom, landing softly on the ground.
 
 | <img src="assets/lavie/1.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/1.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/1.gif" alt="Demo" width="180px"><br><p align="center">DEMO</p> |

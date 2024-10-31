@@ -8,3 +8,4 @@ infer.sh
 train.sh
 inference/
 .github/
+configs/t2v_train_deepspeed_test.yaml

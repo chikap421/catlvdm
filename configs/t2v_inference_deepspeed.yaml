@@ -120,13 +120,11 @@ use_div_loss: False
 
 # Model
 scale_factor: 0.18215  
-# cfg.use_checkpoint = True
-# cfg.use_sharded_ddp = False
 use_fsdp: False 
 use_fp16: True
 temporal_attention: True
 
-# cfg.guidances = []
+
 
 auto_encoder: {
     'type': 'AutoencoderKL',
@@ -153,12 +151,7 @@ negative_prompt: 'Distorted, discontinuous, Ugly, blurry, low resolution, motion
 # training and optimizer
 ema_decay: 0.9999
 
-# lr: 5e-5
 weight_decay: 0.0
-# betas: (0.9, 0.999)
-# eps: 1.0e-8
-# chunk_size: 16
-# decoder_bs: 8
 alpha: 0.7
 
 # scheduler

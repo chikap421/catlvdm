@@ -57,26 +57,33 @@
 
 
 <!-- GETTING STARTED -->
+
 ### 1. Getting Started
-#### Install ffmpeg
-we write videos use ffmpeg, you can install by fllowing command:
+
+#### Install FFmpeg
+
+To save videos, FFmpeg is required. Install it using the following command:
+
 ```bash
-sudo apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+sudo apt-get update && sudo apt-get install ffmpeg libsm6 libxext6 -y
 ```
+
 #### Environment Preparation
-  ```bash
-  git clone git@github.com:PR-Ryan/DEMO.git
-  ```
 
-  ```bash
-  conda create -n demo python=3.8
-  conda activate demo
-  pip install -r requirements.txt
-  ```
+Clone the repository:
 
+```bash
+git clone git@github.com:PR-Ryan/DEMO.git
+```
 
+Set up the Python environment:
 
-Here's the refined Markdown code for the inference instructions:
+```bash
+conda create -n demo python=3.8
+conda activate demo
+pip install -r requirements.txt
+```
+
 
 
 ### 2. Inference
@@ -114,7 +121,7 @@ To start inference, run:
 bash scripts/inference_deeepspeed.sh
 ```
 
-By default, distributed inference utilizes all available GPUs. To manually specify GPUs, add the `--include` flag in the DeepSpeed command:
+By default, distributed inference is enabled and all available GPUs are used. To manually specify GPUs, add the `--include` flag in the DeepSpeed command:
 
 ```bash
 --include="localhost:<your gpu ids>"
@@ -139,8 +146,7 @@ The DeepSpeed configurations for inference are located in `ds_config/ds_config_i
 ### 3. Training
 
 #### Dataset Preparation
-Follow the instruction and download [Web-Vid](https://github.com/m-bain/webvid) dataset. we provide an example training dataset under data/webvid_example
-If you prefer to use your own dataset, please refer to tools/datasets/video_datasets.py to define your own dataset and preprocessing step.
+Follow the instruction and download [Web-Vid](https://github.com/m-bain/webvid) dataset. we provide an example training dataset under `data/webvid_example`. If you prefer to use your own dataset, please refer to `tools/datasets/video_datasets.py` to define your own dataset and preprocessing step.
 
 
 #### Download pretrained models from ModelScope
@@ -184,6 +190,9 @@ In `ds_config/ds_config_train.json`, you can specify:
 - **`gradient_accumulation_steps`**: Number of steps for gradient accumulation.
 - **`zero_optimization`**: Configurations for DeepSpeed's ZeRO optimization. By default, we use stage 2 with optimizer offloading to the CPU, which may increase CPU memory usage. Disable this if you have limited CPU memory. If your GPUs have large memory, you can switch to stage 1 for faster convergence.
 - **`optimizer`**: By default, we use DeepSpeed's highly optimized CPU Adam for faster training, which requires compiling with `nvcc` during the first run. You may need to set `CUDA_HOME` and `LD_LIBRARY_PATH` environment variables. Alternatively, you can switch to another optimizer in `ds_config/ds_config_train.json`. Refer to the [DeepSpeed documentation](https://www.deepspeed.ai/) for more information.
+
+> **Note**: Ensure that your `nvcc` version matches the version used to compile PyTorch. If it does not, you can install `nvcc` within your Conda environment and set the `CUDA_HOME` and `LD_LIBRARY_PATH` to point to the Conda-installed `nvcc`. For more details, refer to the [CUDA Installation Guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#conda-installation).
+
 
 #### Monitoring Training
 

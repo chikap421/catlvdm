@@ -24,7 +24,7 @@
 <!-- PROJECT LOGO -->
 
 <br />
-<!-- <div align="center">
+<div align="center">
 
   <h3 align="center">DEMO: Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
 
@@ -111,46 +111,6 @@
   </figure>
 </div>
 <h3 align="center">Jockeys racing.</h3>
-
-
- -->
-
-
-<!-- Centered Title and Authors -->
-<h3 align="center">DEMO: Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
-
-<p align="center">
-  <a href="https://pr-ryan.github.io/">Penghui Ruan</a>,
-  <a href="https://wangpichao.github.io/">Pichao Wang</a>,
-  <a href="https://www.polyu.edu.hk/comp/people/academic-staff/dr-saxena-divya/">Divya Saxena</a>,
-  <a href="https://www4.comp.polyu.edu.hk/~csjcao/">Jiannong Cao</a>,
-  <a href="https://www.sustech.edu.cn/en/faculties/shiyuhui.html">Yuhui Shi</a>
-</p>
-<p align="center">Accepted at NeurIPS 2024 (Poster)</p>
-
----
-
-![Architecture](assets/architecture.jpeg)
-
-### Slow motion flower petals fall from a blossom, landing softly on the ground.
-
-| ![Lavie](assets/lavie/1.gif)<br><p align="center">Lavie</p> | ![VideoCrafter2](assets/videocrafter2/1.gif)<br><p align="center">VideoCrafter2</p> | ![ModelScope](assets/modelscope/1.gif)<br><p align="center">ModelScope (Base Model)</p> | ![Demo](assets/demo/1.gif)<br><p align="center">Demo</p> |
-|-------|---------------|-------------------------|------|
-
----
-
-### An old man with white hair is shown speaking.
-
-| ![Lavie](assets/lavie/2.gif)<br><p align="center">Lavie</p> | ![VideoCrafter2](assets/videocrafter2/2.gif)<br><p align="center">VideoCrafter2</p> | ![ModelScope](assets/modelscope/2.gif)<br><p align="center">ModelScope (Base Model)</p> | ![Demo](assets/demo/2.gif)<br><p align="center">Demo</p> |
-|-------|---------------|-------------------------|------|
-
----
-
-### Jockeys racing.
-
-| ![Lavie](assets/lavie/3.gif)<br><p align="center">Lavie</p> | ![VideoCrafter2](assets/videocrafter2/3.gif)<br><p align="center">VideoCrafter2</p> | ![ModelScope](assets/modelscope/3.gif)<br><p align="center">ModelScope (Base Model)</p> | ![Demo](assets/demo/3.gif)<br><p align="center">Demo</p> |
-|-------|---------------|-------------------------|------|
-
 
 
 

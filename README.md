@@ -24,12 +24,16 @@
 <h3 align="center">Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
 
 <p align="center">
-  <a href="https://pr-ryan.github.io/">Penghui Ruan</a>,
-  <a href="https://wangpichao.github.io/">Pichao Wang</a>,
-  <a href="https://www.polyu.edu.hk/comp/people/academic-staff/dr-saxena-divya/">Divya Saxena</a>,
-  <a href="https://www4.comp.polyu.edu.hk/~csjcao/">Jiannong Cao</a>,
-  <a href="https://www.sustech.edu.cn/en/faculties/shiyuhui.html">Yuhui Shi</a>
+  <a href="https://pr-ryan.github.io/">Penghui Ruan</a><sup>1,2</sup>,
+  <a href="https://wangpichao.github.io/">Pichao Wang</a><sup>3</sup>,
+  <a href="https://www.polyu.edu.hk/comp/people/academic-staff/dr-saxena-divya/">Divya Saxena</a><sup>1</sup>,
+  <a href="https://www4.comp.polyu.edu.hk/~csjcao/">Jiannong Cao</a><sup>1</sup>,
+  <a href="https://www.sustech.edu.cn/en/faculties/shiyuhui.html">Yuhui Shi</a><sup>2</sup>
 </p>
+<p align="center"><sup>1</sup> The Hong Kong Polytechnic University, Hong Kong</p>
+<p align="center"><sup>2</sup> Southern University of Science and Technology, Shenzhen</p>
+<p align="center"><sup>3</sup> Amazon, United States</p>
+
 <p align="center">Accepted at NeurIPS 2024 (Poster)</p>
 
 ---
@@ -198,7 +202,7 @@ In `ds_config/ds_config_train.json`, you can specify:
 > **Note**: Ensure that your `nvcc` version matches the version used to compile PyTorch. If it does not, you can install `nvcc` within your Conda environment and set the `CUDA_HOME` and `LD_LIBRARY_PATH` to point to the Conda-installed `nvcc`. For more details, refer to the [CUDA Installation Guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#conda-installation).
 
 
-#### Monitoring Training
+#### Monitor Training
 
 TensorBoard is enabled by default for monitoring the training process. To view the training progress, launch TensorBoard with:
 
@@ -219,7 +223,7 @@ tensorboard --logdir=tensorboard_log/demo
 - [x] Release model weights.
 - [x] Release inference and training code.
 - [ ] Huggingface demo.
-- [ ] gradio application.
+- [ ] Gradio application.
 
 
 

@@ -143,7 +143,7 @@ temporal_attention: True
 video_motion_weight: 0.1
 text_motion_weight: 0.1
 regularization_weight: 0.1
-stop_grad_index: 15
+stop_grad_index: 5
 
 
 negative_prompt: 'Distorted, discontinuous, Ugly, blurry, low resolution, motionless, static, disfigured, disconnected limbs, Ugly faces, incomplete arms'

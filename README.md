@@ -88,6 +88,7 @@ conda activate demo
 pip install -r requirements.txt
 ```
 
+> **Note:** Our `requirements.txt` specifies `torch==2.1.2`, compiled with `nvcc 12.1`. You may adjust this according to your setup, but ensure that your `torch` installation is compatible with the `nvcc` version installed on your system. For more details, refer to the [PyTorch installation guide](https://pytorch.org/get-started/locally/).
 
 
 ### 2. Inference

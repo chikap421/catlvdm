@@ -325,8 +325,8 @@ class MemoryEfficientCrossAttention4Cross(nn.Module):
             out = torch.cat(out_list, dim=0)
         else:
             out = xformers.ops.memory_efficient_attention(q, k, v, attn_bias=None, op=self.attention_op)
-        # print(x.shape[0])
         
+        ### This maps tend to be noisy, especially in low resolution, considering to threshold and filter it.
         if eot_idx is not None:
             hw = x.shape[0] // batch_size
             h = w = int(hw ** 0.5)

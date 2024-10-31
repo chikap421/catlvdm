@@ -34,7 +34,7 @@
 <p align="center"><sup>2</sup> Southern University of Science and Technology, Shenzhen</p>
 <p align="center"><sup>3</sup> Amazon, United States</p>
 
-<p align="center">Accepted at NeurIPS 2024 (Poster)</p>
+<p align="center">Accepted at NeurIPS 2024</p>
 
 ---
 

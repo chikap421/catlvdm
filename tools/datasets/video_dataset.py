@@ -85,34 +85,6 @@ class WebVid10M(Dataset):
 
 
 
-
-
-   
-@DATASETS.register_class()
-class VisualDataset(Dataset):
-    def __init__(
-            self,
-            prompt_dir_path,
-            **kwargs,
-        ):
-        
-        self.prompt_dir_path = prompt_dir_path
-        self.prompt_list = os.listdir(prompt_dir_path)
-        self.length = len(self.prompt_list)
-
-        
-    def __len__(self):
-        return self.length
-
-    def __getitem__(self, idx):
-        videoid = self.prompt_list[idx].split('.')[0]
-        videoid = videoid+".mp4"    
-        prompt_path = os.path.join(self.prompt_dir_path, self.prompt_list[idx])
-        prompt = open(prompt_path, 'r').readline()
-        
-
-        return videoid, prompt
-    
     
 @DATASETS.register_class()
 class VisualDatasetRepeat(Dataset):

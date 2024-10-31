@@ -6,12 +6,14 @@ num_workers: 16
 max_frames: 16
 sample_fps: 3
 resolution: [256,256]
-
+freeze_unet: True
 
 train_dataset: {
     'type': 'WebVid10M',
     'csv_path': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/data/webvid/train_2M/train_real.csv',
+    # 'csv_path': 'data/webvid/train_sample.csv',
     'video_folder': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/data/webvid/train_2M/videos',
+    # 'video_folder': 'data/webvid/videos',
     'resolution': [256,256], 
     'sample_n_frames': 16,
 }
@@ -25,8 +27,8 @@ embedder: {
     'freeze': True
 }
 
-temporal_embedder: {
-    'type': 'TemporalEmbedder',
+motion_encoder: {
+    'type': 'MotionEncoder',
     'layer': 'penultimate',
     'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
     # 'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
@@ -116,8 +118,7 @@ p_zero: 0.1
 num_steps: 1000000
 
 use_zero_infer: True
-viz_interval: 1000        # 200
-save_ckp_interval: 2000   # 500
+save_ckp_interval: 200   # 500
 
 # Log
 log_dir: "workspace"
@@ -130,35 +131,23 @@ mean: [0.5, 0.5, 0.5]
 std: [0.5, 0.5, 0.5]
 max_words: 1000
 prefetch_factor: 1
-ddim_timesteps: 50  # official: 250
+ddim_timesteps: 50  
 use_div_loss: False
 
 
-# Model
 scale_factor: 0.18215  
 use_fsdp: False 
 use_fp16: True
 temporal_attention: True
 
+video_motion_weight: 0.1
+text_motion_weight: 0.1
+regularization_weight: 0.1
+stop_grad_index: 15
+
 
 negative_prompt: 'Distorted, discontinuous, Ugly, blurry, low resolution, motionless, static, disfigured, disconnected limbs, Ugly faces, incomplete arms'
 
-# training and optimizer
-ema_decay: 0.9999
-
-# lr: 5e-5
-weight_decay: 0.0
-# betas: (0.9, 0.999)
-# eps: 1.0e-8
-alpha: 0.7
-
-# scheduler
-warmup_steps: 10
-decay_mode: 'cosine'
-
-
-
 deepspeed_config: "ds_configs/ds_config_train.json"
 
-freeze: True
 resume_step: 267000

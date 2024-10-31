@@ -4,15 +4,10 @@ import sys
 sys.path.insert(0, '/'.join(osp.realpath(__file__).split('/')[:-4]))
 
 import torch
-import logging
-import datetime
 import numpy as np
 from PIL import Image
-import torch.optim as optim 
 from einops import rearrange
 import torch.cuda.amp as amp
-from importlib import reload
-from copy import deepcopy, copy
 import torch.nn.functional as F
 import torch.distributed as dist
 
@@ -21,12 +16,10 @@ from utils.registry_class import INFER_ENGINE, MODEL, DATASETS, EMBEDDER, AUTO_E
 
 import time
 import tqdm
-from datetime import datetime
+
 import deepspeed
 import torch.nn as nn
-import re
 import random
-import cv2
 
 from utils.video_op import save_video
 

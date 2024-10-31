@@ -8,7 +8,7 @@ import torchvision.transforms as T
 
 from utils.registry_class import EMBEDDER
 
-# import spacy
+
 import time
 from PIL import Image
 
@@ -250,7 +250,6 @@ class MotionEncoder(nn.Module):
             
         del model.visual
         self.model = model
-        # self.nlp = spacy.load("en_core_web_sm")
         self.device = device
         self.max_length = max_length
         if freeze:

@@ -21,7 +21,7 @@
 
 <!-- 
 <!-- Centered Title and Authors -->
-<h3 align="center">DEMO: Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
+<h3 align="center">Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
 
 <p align="center">
   <a href="https://pr-ryan.github.io/">Penghui Ruan</a>,
@@ -37,21 +37,21 @@
 ![Architecture](assets/architecture.jpeg)
 ### Slow motion flower petals fall from a blossom, landing softly on the ground.
 
-| <img src="assets/lavie/1.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/1.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/1.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
+| <img src="assets/lavie/1.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/1.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/1.gif" alt="Demo" width="180px"><br><p align="center">DEMO</p> |
 |-------|---------------|-------------------------|------|
 
 ---
 
 ### An old man with white hair is shown speaking.
 
-| <img src="assets/lavie/2.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/2.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/2.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/2.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
+| <img src="assets/lavie/2.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/2.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/2.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/2.gif" alt="Demo" width="180px"><br><p align="center">DEMO</p> |
 |-------|---------------|-------------------------|------|
 
 ---
 
 ### Jockeys racing.
 
-| <img src="assets/lavie/3.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/3.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/3.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/3.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
+| <img src="assets/lavie/3.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/3.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/3.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/3.gif" alt="Demo" width="180px"><br><p align="center">DEMO</p> |
 |-------|---------------|-------------------------|------|
 
 
@@ -100,7 +100,7 @@ Alternatively, you can download directly from [Hugging Face](https://huggingface
 
 #### Download Fine-Tuned Checkpoints
 
-Download our fine-tuned [checkpoints](https://huggingface.co/Ryan-PR/DEMO) from Hugging Face.
+Download our fine-tuned [checkpoints](https://huggingface.co/Ryan-PR/DEMO) from Hugging Face and place the folder under `models`.
 
 #### Prepare Inference Prompt
 
@@ -146,7 +146,11 @@ The DeepSpeed configurations for inference are located in `ds_config/ds_config_i
 ### 3. Training
 
 #### Dataset Preparation
-Follow the instruction and download [Web-Vid](https://github.com/m-bain/webvid) dataset. we provide an example training dataset under `data/webvid_example`. If you prefer to use your own dataset, please refer to `tools/datasets/video_datasets.py` to define your own dataset and preprocessing step.
+
+Follow the instructions to download the [WebVid-10M](https://github.com/m-bain/webvid) dataset. We provide an example training dataset in `data/webvid/train_sample.csv`. You can manually download these sample videos and place them in `data/webvid/videos` for sample training.
+
+If you prefer to use your own dataset, refer to `tools/datasets/video_datasets.py` to define your dataset and preprocessing steps.
+
 
 
 #### Download pretrained models from ModelScope
@@ -189,7 +193,7 @@ In `ds_config/ds_config_train.json`, you can specify:
 - **`train_micro_batch_size_per_gpu`**: The batch size for each GPU.
 - **`gradient_accumulation_steps`**: Number of steps for gradient accumulation.
 - **`zero_optimization`**: Configurations for DeepSpeed's ZeRO optimization. By default, we use stage 2 with optimizer offloading to the CPU, which may increase CPU memory usage. Disable this if you have limited CPU memory. If your GPUs have large memory, you can switch to stage 1 for faster convergence.
-- **`optimizer`**: By default, we use DeepSpeed's highly optimized CPU Adam for faster training, which requires compiling with `nvcc` during the first run. You may need to set `CUDA_HOME` and `LD_LIBRARY_PATH` environment variables. Alternatively, you can switch to another optimizer in `ds_config/ds_config_train.json`. Refer to the [DeepSpeed documentation](https://www.deepspeed.ai/) for more information.
+- **`optimizer`**: By default, we use DeepSpeed's highly optimized CPU Adam for faster training, which requires compiling with `nvcc` during the first run. You may need to set `CUDA_HOME` and `LD_LIBRARY_PATH` environment variables. Alternatively, you can simply skip this by switching to another optimizer in `ds_config/ds_config_train.json`. Refer to the [DeepSpeed documentation](https://www.deepspeed.ai/) for more information.
 
 > **Note**: Ensure that your `nvcc` version matches the version used to compile PyTorch. If it does not, you can install `nvcc` within your Conda environment and set the `CUDA_HOME` and `LD_LIBRARY_PATH` to point to the Conda-installed `nvcc`. For more details, refer to the [CUDA Installation Guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#conda-installation).
 
@@ -201,9 +205,6 @@ TensorBoard is enabled by default for monitoring the training process. To view t
 ```bash
 tensorboard --logdir=tensorboard_log/demo
 ```
-
-
-
 
 
 
@@ -243,7 +244,7 @@ Project Link: [https://pr-ryan.github.io/DEMO-project/](https://pr-ryan.github.i
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-This repo is heavily built upon [VGen](https://github.com/ali-vilab/VGen) from alibaba. We sincerely thanks for their effort to contribting the open-source conmmunity.
+This repository is largely based on [VGen](https://github.com/ali-vilab/VGen) by Alibaba. We sincerely thank them for their contributions to the open-source community.
 
 
 ## BibTex

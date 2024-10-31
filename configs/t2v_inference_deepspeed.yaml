@@ -9,9 +9,9 @@ sample_fps: 3
 resolution: [256,256]
 
 ## deoning batch size
-batch_size: 1
+batch_size: 16
 
-decoder_bs: 1
+decoder_bs: 16
 
 # inference_scale: 8
 inference_seed: 42
@@ -23,6 +23,7 @@ model_name: "DEMO"
 infer_dataset: {
     'type': 'VisualDatasetRepeat',
     'csv_path': 'prompts/test_prompt.csv',
+    'repeat_times': 20,
 }
 
 

@@ -76,9 +76,9 @@ class ModelWrapper(nn.Module):
         for param in self.autoencoder.parameters():
             param.requires_grad = False
     
-    def configure_parameters(self, freeze=True):
+    def configure_parameters(self, freeze_unet=True):
         params_list =[]
-        if not freeze:
+        if not freeze_unet:
             print("allow unet to be updated")
             for param in self.model.parameters():
                param.requires_grad = True
@@ -89,13 +89,12 @@ class ModelWrapper(nn.Module):
                     for param in module.parameters():
                         param.requires_grad = True
                     params_list.append({'params': module.parameters()})
-                    # params_list.extend(module.parameters())
-        
         
         if self.motion_encoder:
             for param in self.motion_encoder.parameters():
                 param.requires_grad = True
-            params_list.append({'params': self.motion_encoder.parameters(),'lr':cfg.motion_lr})
+            for layer_index in range(cfg.stop_grad_index, len(self.motion_encoder.model.transformer.resblocks)):
+                params_list.append({'params': self.motion_encoder.model.transformer.resblocks[layer_index].parameters(),'lr':cfg.motion_lr})
             
         return params_list
 
@@ -185,7 +184,7 @@ def deepspeed_worker_wrapper(cfg):
    
     train_dataset = DATASETS.build(cfg.train_dataset)  
     model = ModelWrapper(cfg)
-    params_list = model.configure_parameters(freeze=cfg.freeze)
+    params_list = model.configure_parameters(freeze_unet=cfg.freeze_unet)
     model_engine, optimizer, train_dataloader, _ = deepspeed.initialize(
         args=cfg,
         model=model,
@@ -218,7 +217,8 @@ def deepspeed_worker_wrapper(cfg):
                   ("Train/Samples/text_motion_loss", text_motion_loss.mean().item(),model_engine.global_samples),
                   ("Train/Samples/regularization_loss", regularization_loss.mean().item(),model_engine.global_samples),
                   ]
-        loss = diffusion_loss + 0.1 * video_motion_loss + 0.1 * text_motion_loss + 0.3 * regularization_loss
+        loss = diffusion_loss + cfg.video_motion_weight * video_motion_loss + cfg.text_motion_weight * text_motion_loss + cfg.regularization_weight * regularization_loss
+
         loss = loss.mean()
         monitor.write_events(events)
         model_engine.backward(loss)

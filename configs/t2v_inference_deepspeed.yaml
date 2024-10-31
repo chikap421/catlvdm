@@ -13,17 +13,14 @@ batch_size: 16
 
 decoder_bs: 16
 
-# inference_scale: 8
 inference_seed: 42
 
 model_name: "DEMO"
 
-
-
 infer_dataset: {
-    'type': 'VisualDatasetRepeat',
+    'type': 'InferenceDatasetRepeat',
     'csv_path': 'prompts/test_prompt.csv',
-    'repeat_times': 20,
+    'repeat_times': 5,
 }
 
 
@@ -31,17 +28,16 @@ infer_dataset: {
 embedder: {
     'type': 'FrozenOpenCLIPEmbedder',
     'layer': 'penultimate',
-    # 'vit_resolution': [224, 224],
     'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
+    # 'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
     'freeze': True
 }
 
 motion_encoder: {
     'type': 'MotionEncoder',
     'layer': 'penultimate',
-    # 'vit_resolution': [224, 224],
-    # 'pretrained': 'models/DEMO/temporal_embedder.pth',
-    'pretrained': "/lab/shiyh_lab/12250073/ENHANCE_MOTION/non_ema_00312000_temporal_embedder.pth",
+    # 'pretrained': 'models/demo/motion_encoder.pth',
+    'pretrained': "/lab/shiyh_lab/12250073/DEMO/workspace/t2v_train_deepspeed10-31_19:48/checkpoints/non_ema_00267200_motion_encoder.pth",
     'freeze': True,
     'from_incomplete': True,
 }
@@ -51,7 +47,8 @@ Pretrain: {
     'type': load_model,
     'from_modelscope': False,
     'inference': True,
-    'resume_checkpoint': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/non_ema_00312000.pth',
+    'resume_checkpoint': '/lab/shiyh_lab/12250073/DEMO/workspace/t2v_train_deepspeed10-31_19:48/checkpoints/non_ema_00267200.pth',
+    # 'resume_checkpoint': 'models/demo/demo.pth',
 }
 
 
@@ -110,11 +107,10 @@ log_dir: "inference"
 
 
 
-## from config.py
 mean: [0.5, 0.5, 0.5]
 std: [0.5, 0.5, 0.5]
 max_words: 1000
-# num_workers: 8
+
 prefetch_factor: 1
 ddim_timesteps: 50  # official: 250
 use_div_loss: False
@@ -143,21 +139,11 @@ auto_encoder: {
         'video_kernel_size': [3, 1, 1]
     },
     'embed_dim': 4,
-    # 'pretrained': 'models/v2-1_512-ema-pruned.ckpt'
+    # 'pretrained': 'models/modelscopet2v/v2-1_512-ema-pruned.ckpt'
     'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/VQGAN_autoencoder.pth'
 }
 
 negative_prompt: 'Distorted, discontinuous, Ugly, blurry, low resolution, motionless, static, disfigured, disconnected limbs, Ugly faces, incomplete arms'
-
-# training and optimizer
-ema_decay: 0.9999
-
-weight_decay: 0.0
-alpha: 0.7
-
-# scheduler
-warmup_steps: 10
-decay_mode: 'cosine'
 
 
 deepspeed_config: "ds_configs/ds_config_inference.json"

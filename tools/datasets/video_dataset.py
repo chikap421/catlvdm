@@ -87,7 +87,7 @@ class WebVid10M(Dataset):
 
     
 @DATASETS.register_class()
-class VisualDatasetRepeat(Dataset):
+class InferenceDatasetRepeat(Dataset):
     def __init__(
             self,
             csv_path,

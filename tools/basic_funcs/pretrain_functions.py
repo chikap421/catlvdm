@@ -62,13 +62,3 @@ def load_model(
     print(f'Successfully load model from {resume_checkpoint}')
     return unet
 
-
-
-@PRETRAIN.register_function()
-def pretrain_from_sd():
-    pass
-
-
-@PRETRAIN.register_function()
-def pretrain_ema_model():
-    pass

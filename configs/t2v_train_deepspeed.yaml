@@ -102,14 +102,14 @@ Diffusion: {
 
 
 Pretrain: {
-    'type': load_model_new,
+    'type': load_model,
     'from_modelscope': True,
     'resume_checkpoint': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/text2video_pytorch_model.pth',
     # 'resume_checkpoint': 'models/modelscopet2v/text2video_pytorch_model.pth',
 }
 
 
-temporal_lr: 0.000001
+motion_lr: 0.000001
 noise_strength: 0.1
 # classifier-free guidance
 p_zero: 0.1

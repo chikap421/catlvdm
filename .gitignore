@@ -1,2 +1,5 @@
 /workspace
 /tensorboard_log
+*.pyc
+.vscode/
+__pycache__/

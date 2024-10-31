@@ -53,10 +53,10 @@ class ModelWrapper(nn.Module):
     def __init__(self, cfg):
         super(ModelWrapper, self).__init__()
         self.clip_encoder = EMBEDDER.build(cfg.embedder)
-        if "temporal_embedder" in cfg:
-            self.temporal_encoder = EMBEDDER.build(cfg.temporal_embedder)
+        if "motion_encoder" in cfg:
+            self.motion_encoder = EMBEDDER.build(cfg.motion_encoder)
         else:
-            self.temporal_encoder = None
+            self.motion_encoder = None
         self.diffusion = DIFFUSION.build(cfg.Diffusion) 
         self.autoencoder = AUTO_ENCODER.build(cfg.auto_encoder)
         self.model = MODEL.build(cfg.UNet)
@@ -92,10 +92,10 @@ class ModelWrapper(nn.Module):
                     # params_list.extend(module.parameters())
         
         
-        if self.temporal_encoder:
-            for param in self.temporal_encoder.parameters():
+        if self.motion_encoder:
+            for param in self.motion_encoder.parameters():
                 param.requires_grad = True
-            params_list.append({'params': self.temporal_encoder.parameters(),'lr':cfg.temporal_lr})
+            params_list.append({'params': self.motion_encoder.parameters(),'lr':cfg.motion_lr})
             
         return params_list
 
@@ -115,7 +115,7 @@ class ModelWrapper(nn.Module):
                     chunk = chunk.to(self.cfg.rank)
                     latent_z = self.autoencoder.encode_first_stage(chunk, self.cfg.scale_factor).detach()
                     encoded_chunks.append(latent_z)
-            # logging.info(f'encode time: {time.time()-encode_start}')
+
             video_data = torch.cat(encoded_chunks, dim=0)
             video_data = rearrange(video_data, '(b f) c h w -> b c f h w', b=batch_size) 
 
@@ -126,8 +126,8 @@ class ModelWrapper(nn.Module):
             with torch.no_grad():
                 y_words = self.clip_encoder(text=captions)
             
-            if self.temporal_encoder:
-                tokenids,temporal_y_words = self.temporal_encoder(text=captions)
+            if self.motion_encoder:
+                tokenids,temporal_y_words = self.motion_encoder(text=captions)
                 sample_idx, eot_idx = (tokenids == 49407).nonzero(as_tuple=True)
 
             if self.clip_visual:
@@ -238,9 +238,9 @@ def deepspeed_worker_wrapper(cfg):
                     'step': step}
                 torch.save(save_dict, local_model_path)
                 print(f'Save model to {local_model_path}')
-                if "temporal_embedder" in cfg:
-                    temporal_model_path = osp.join(cfg.log_dir, f'checkpoints/non_ema_{step:08d}_temporal_embedder.pth')
-                    temporal_state_dict = model_engine.module.temporal_encoder.model.state_dict()
+                if "motion_encoder" in cfg:
+                    temporal_model_path = osp.join(cfg.log_dir, f'checkpoints/non_ema_{step:08d}_motion_encoder.pth')
+                    temporal_state_dict = model_engine.module.motion_encoder.model.state_dict()
                     torch.save(temporal_state_dict,temporal_model_path)
                     print(f'Save temporal model to {temporal_model_path}')
                     

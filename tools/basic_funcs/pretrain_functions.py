@@ -12,7 +12,7 @@ import json
 
 
 @PRETRAIN.register_function()
-def load_model_new(
+def load_model(
         unet=None, 
         resume_checkpoint=None,
         from_modelscope=False,
@@ -54,6 +54,8 @@ def load_model_new(
                 new_state_dict[new_k] = state_dict[k]
 
             state_dict = new_state_dict
+        else:
+            state_dict = state_dict['unet_state_dict']
         mkey, ukey = unet.load_state_dict(state_dict, strict=False)
         print(f'load unet with missing key: {mkey} and unexpected key: {ukey}')
     

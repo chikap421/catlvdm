@@ -8,30 +8,21 @@ max_frames: 16
 sample_fps: 3
 resolution: [256,256]
 
+## deoning batch size
+batch_size: 1
 
-# infer_dataset: {
-#     'type': 'MSRVTT',
-#     'csv_path': 'data/MSRVTT/random_42.csv',
-# }
+decoder_bs: 1
 
-# infer_dataset: {
-#     'type': 'EvalCrafter',
-#     'prompt_dir_path': 'data/prompts',
-# }
+# inference_scale: 8
+inference_seed: 42
 
-# infer_dataset: {
-#     'type': 'UCF101ALL',
-#     'prompt_path': 'data/UCF101/prompts',
-# }
+model_name: "DEMO"
 
-# infer_dataset: {
-#     'type': 'UCF101ALL',
-#     'prompt_path': 'data/UCF101/prompts_sentence',
-# }
+
 
 infer_dataset: {
-    'type': 'VisualDataset',
-    'csv_path': 'data/gpt_prompt.csv',
+    'type': 'VisualDatasetRepeat',
+    'csv_path': 'prompts/test_prompt.csv',
 }
 
 
@@ -40,15 +31,16 @@ embedder: {
     'type': 'FrozenOpenCLIPEmbedder',
     'layer': 'penultimate',
     # 'vit_resolution': [224, 224],
-    'pretrained': 'models/modelscope/open_clip_pytorch_model.bin',
+    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin',
     'freeze': True
 }
 
-temporal_embedder: {
-    'type': 'TemporalEmbedder',
+motion_encoder: {
+    'type': 'MotionEncoder',
     'layer': 'penultimate',
     # 'vit_resolution': [224, 224],
-    'pretrained': 'models/DEMO/temporal_embedder.pth',
+    # 'pretrained': 'models/DEMO/temporal_embedder.pth',
+    'pretrained': "/lab/shiyh_lab/12250073/ENHANCE_MOTION/non_ema_00312000_temporal_embedder.pth",
     'freeze': True,
     'from_incomplete': True,
 }
@@ -58,11 +50,11 @@ Pretrain: {
     'type': load_model,
     'from_modelscope': False,
     'inference': True,
-    'resume_checkpoint': 'models/DEMO/demo.pth',
+    'resume_checkpoint': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/non_ema_00312000.pth',
 }
 
 
-model_name: "DEMO"
+
 
 UNet: {
     'type': 'UNetSD_T2V_DEMO',
@@ -115,12 +107,6 @@ scale: 8
 log_dir: "inference"
 
 
-batch_size: 36
-chunk_size: 12
-decoder_bs: 12
-
-# inference_scale: 8
-inference_seed: 42
 
 
 ## from config.py
@@ -159,7 +145,7 @@ auto_encoder: {
     },
     'embed_dim': 4,
     # 'pretrained': 'models/v2-1_512-ema-pruned.ckpt'
-    'pretrained': 'models/modelscope/VQGAN_autoencoder.pth'
+    'pretrained': '/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/VQGAN_autoencoder.pth'
 }
 
 negative_prompt: 'Distorted, discontinuous, Ugly, blurry, low resolution, motionless, static, disfigured, disconnected limbs, Ugly faces, incomplete arms'

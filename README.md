@@ -27,8 +27,13 @@
 
   <h3 align="center">DEMO: Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
 
-  <h4 align="center">Penghui Ruan, Pichao Wang, Divya Saxena, Jiannong Cao, Yuhui Shi</h4>
-  <h4 align="center">Accepted by NeurIPS 2024 Poster</h4>
+
+  <a herf="https://pr-ryan.github.io/">Penghui Ruan</a>,
+  <a herf="https://wangpichao.github.io/">Pichao Wang</a>,
+  <a herf="https://www.polyu.edu.hk/comp/people/academic-staff/dr-saxena-divya/">Divya Saxena</a>,
+  <a herf="https://www4.comp.polyu.edu.hk/~csjcao/">Jiannong Cao</a>,
+  <a herf="https://www.sustech.edu.cn/en/faculties/shiyuhui.html">Yuhui Shi</a>
+  <h4 align="center">Accepted at NeurIPS 2024 (Poster)</h4>
 
 </div>
 
@@ -117,6 +122,7 @@
 
 ### Prerequisites
 #### Install ffmpeg
+we write videos use ffmpeg, you can install by fllowing command:
 ```bash
 sudo apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 ```
@@ -134,11 +140,8 @@ sudo apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 
 
 ### Inference
-```bash
-bash scripts/inference_deeepspeed.sh
-```
-
-#### Download Pretrained Model
+It is worthy to note that, with our optimized inference code, our model allow to generate video with 256*256*16 with even on GPU with 8GB for batch size 1.
+#### Download Pretrained Models from ModelScope
 ```bash
 bash models/download.sh
 ```
@@ -152,7 +155,10 @@ id,prompt
 2,a fat car is parked by the road.
 3,a fat balloon is floating in the air.
 ```
-
+#### Start Inference
+```bash
+bash scripts/inference_deeepspeed.sh
+```
 
 ### Training
 
@@ -162,17 +168,20 @@ Follow the instruction and download [Web-Vid](https://github.com/m-bain/webvid) 
 
 
 
-#### Download Pretrained models
+#### Download Pretrained Models from ModelScope
 
 ```bash
 bash models/download.sh
 ```
 
+
+
+
 #### Train the model
 ```bash
 bash scripts/train_deeepspeed.sh
 ```
-
+Note that, we use deepspeed stage 2 with cpu_adam for speeding up the train process, you may need to specify the CUDA_HOME and LD_LIBRARY_PATH in the script, to allow deepspeed to compile binaries for cpu_adam. You can also simply skip this by switching to other optimizer in the ds_configs/ds_config_train.json
 
 
 
@@ -189,9 +198,6 @@ bash scripts/train_deeepspeed.sh
 - [ ] gradio application.
 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 
 
@@ -199,8 +205,6 @@ bash scripts/train_deeepspeed.sh
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -211,8 +215,6 @@ Penghui Ruan - penghui.ruan@connect.polyu.hk
 
 Project Link: [https://pr-ryan.github.io/DEMO-project/](https://pr-ryan.github.io/DEMO-project/)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- ACKNOWLEDGMENTS -->
@@ -220,6 +222,8 @@ Project Link: [https://pr-ryan.github.io/DEMO-project/](https://pr-ryan.github.i
 
 This repo is heavily built upon [VGen](https://github.com/ali-vilab/VGen) from alibaba. We sincerely thanks for their effort to contribting the open-source conmmunity.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## BibTex
+
 
 

@@ -20,7 +20,6 @@ from ..modules.config import cfg
 from utils.registry_class import INFER_ENGINE, MODEL, DATASETS, EMBEDDER, AUTO_ENCODER, DISTRIBUTION, VISUAL, DIFFUSION, PRETRAIN
 
 import time
-# from ..modules.unet import UNetSD_T2V_DEMO
 import tqdm
 from datetime import datetime
 import deepspeed
@@ -59,17 +58,16 @@ class ModelWrapper(nn.Module):
     def __init__(self, cfg):
         super(ModelWrapper, self).__init__()
         self.clip_encoder = EMBEDDER.build(cfg.embedder)
-        if "temporal_embedder" in cfg:
-            self.temporal_encoder = EMBEDDER.build(cfg.temporal_embedder)
+        if "motion_encoder" in cfg:
+            self.motion_encoder = EMBEDDER.build(cfg.motion_encoder)
         else:
-            self.temporal_encoder = None
+            self.motion_encoder = None
         self.diffusion = DIFFUSION.build(cfg.Diffusion) 
         self.autoencoder = AUTO_ENCODER.build(cfg.auto_encoder)
         self.model = MODEL.build(cfg.UNet)
 
         self.model = PRETRAIN.build(cfg.Pretrain, unet=self.model)
         
-        # self.resume_step = cfg.resume_step
         self.freeze()
         self.cfg = cfg
 
@@ -86,9 +84,9 @@ class ModelWrapper(nn.Module):
         for param in self.model.parameters():
             param.requires_grad = False
         
-        if self.temporal_encoder is not None:
-            self.temporal_encoder.eval()
-            for param in self.temporal_encoder.parameters():
+        if self.motion_encoder is not None:
+            self.motion_encoder.eval()
+            for param in self.motion_encoder.parameters():
                 param.requires_grad = False
             
 def deepspeed_worker_inference(cfg):
@@ -96,9 +94,6 @@ def deepspeed_worker_inference(cfg):
     Training worker for each gpu
     '''
     cfg.world_size = int(os.getenv('WORLD_SIZE', '4'))
-    # print("world size: ", cfg.world_size)
-    # print("current rank: ", cfg.rank)
-    # cfg.world_size = dist.get_world_size()
     worker_seed = cfg.inference_seed + cfg.rank
     dist.init_process_group(backend='nccl', world_size=cfg.world_size, rank=cfg.rank)
     torch.cuda.set_device(cfg.rank)
@@ -107,10 +102,7 @@ def deepspeed_worker_inference(cfg):
     model_name = cfg.model_name
 
     cfg.log_dir = osp.join(cfg.log_dir, model_name+"_"+cfg.infer_dataset['type'])
-    cfg.log_dir = cfg.log_dir + "_" + cfg.prompt_sets if cfg.prompt_sets is not None else cfg.log_dir
-    
-    
-    
+
     
     os.makedirs(cfg.log_dir, exist_ok=True)
 
@@ -135,25 +127,20 @@ def deepspeed_worker_inference(cfg):
                 videoids, captions = batch
                 batch_size = len(videoids)
                 
-                
-                
-                captions = list(zip(*captions))
-                captions = [subprompt for sublist in captions for subprompt in sublist]
 
                 y_words = model_engine.module.clip_encoder(text=captions) # bs * 1 *1024 [B, 1, 1024]
 
 
                 noise = torch.randn([batch_size, 4, cfg.max_frames, int(cfg.resolution[0]/cfg.scale), int(cfg.resolution[1]/cfg.scale)])
                 noise = noise.to(cfg.rank)
-                if model_engine.module.temporal_encoder is not None:
-                    _, temporal_y = model_engine.module.temporal_encoder(text=captions)
-                    _, temporal_zero_y_negative = model_engine.module.temporal_encoder(text=cfg.negative_prompt)
+                if model_engine.module.motion_encoder is not None:
+                    _, temporal_y = model_engine.module.motion_encoder(text=captions)
+                    _, temporal_zero_y_negative = model_engine.module.motion_encoder(text=cfg.negative_prompt)
                     model_kwargs=[
                         {'y': y_words, 'temporal_y': temporal_y},
                         {'y': zero_y_negative.repeat(batch_size,1,1), 'temporal_y': temporal_zero_y_negative.repeat(batch_size,1,1)}]
                 else:
                     model_kwargs = [{'y': y_words}, {'y': zero_y_negative.repeat(batch_size*16,1,1)}]
-                    # model_kwargs = [{'y': y_words}, {'y': zero_y_negative.repeat(batch_size,1,1)}]
                     
                 print(f'Start to generate videos')
                 video_data = model_engine.module.diffusion.ddim_sample_loop(
@@ -176,9 +163,6 @@ def deepspeed_worker_inference(cfg):
                 video_data = rearrange(video_data, '(b f) c h w -> b c f h w', b = batch_size)
                 print(f'Start to save videos')
                 save_video(cfg.log_dir, video_data, name_list=videoids, rank=cfg.rank)
-        # exit()
-    print('Congratulations! The inference is completed!')
-        
         
         
     

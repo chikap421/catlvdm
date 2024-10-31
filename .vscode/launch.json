@@ -23,6 +23,26 @@
               "LD_LIBRARY_PATH":"${env:HOME}/miniconda3/envs/vgen12.3/lib:${env:LD_LIBRARY_PATH}",
               "PATH":"/lab/shiyh_lab/12250073/miniconda3/envs/vgen12.3/bin:${env:PATH}"
             }
+        },
+        {
+            "name": "deepspeed inference",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/lab/shiyh_lab/12250073/miniconda3/envs/vgen12.3/bin/deepspeed",
+            "console": "integratedTerminal",
+            "args": [
+                "--master_port",
+                "29501",
+                "--num_gpus=1",
+                "inference.py",
+                "--cfg",
+                "configs/t2v_inference_deepspeed.yaml"
+            ],
+            "env": {
+              "CUDA_HOME":"${env:HOME}/miniconda3/envs/vgen12.3",
+              "LD_LIBRARY_PATH":"${env:HOME}/miniconda3/envs/vgen12.3/lib:${env:LD_LIBRARY_PATH}",
+              "PATH":"/lab/shiyh_lab/12250073/miniconda3/envs/vgen12.3/bin:${env:PATH}"
+            }
         }
     ]
 }

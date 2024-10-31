@@ -228,7 +228,7 @@ class FrozenOpenCLIPTtxtVisualEmbedder(nn.Module):
 
 
 @EMBEDDER.register_class()
-class TemporalEmbedder(nn.Module):
+class MotionEncoder(nn.Module):
     """
     Fine tune OpenCLIP transformer encoder
     """
@@ -266,7 +266,7 @@ class TemporalEmbedder(nn.Module):
         
     def prepare(self,pretrained_path):
         x = torch.load(pretrained_path,map_location="cpu")
-        y = torch.load("models/modelscope/open_clip_pytorch_model.bin",map_location="cpu")
+        y = torch.load("/lab/shiyh_lab/12250073/ENHANCE_MOTION/models/modelscope/open_clip_pytorch_model.bin",map_location="cpu")
         for k,v in y.items():
             if k.startswith("visual."):
                 x[k] = v

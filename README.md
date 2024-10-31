@@ -131,27 +131,24 @@
 ---
 
 ![Architecture](assets/architecture.jpeg)
-
 ### Slow motion flower petals fall from a blossom, landing softly on the ground.
 
-| ![Lavie](assets/lavie/1.gif)<br><p align="center">Lavie</p> | ![VideoCrafter2](assets/videocrafter2/1.gif)<br><p align="center">VideoCrafter2</p> | ![ModelScope](assets/modelscope/1.gif)<br><p align="center">ModelScope (Base Model)</p> | ![Demo](assets/demo/1.gif)<br><p align="center">Demo</p> |
+| <img src="assets/lavie/1.gif" alt="Lavie" width="200px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2" width="200px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/1.gif" alt="ModelScope" width="200px"><br><p align="center">ModelScope (Base Model)</p> | <img src="assets/demo/1.gif" alt="Demo" width="200px"><br><p align="center">Demo</p> |
 |-------|---------------|-------------------------|------|
 
 ---
 
 ### An old man with white hair is shown speaking.
 
-| ![Lavie](assets/lavie/2.gif)<br><p align="center">Lavie</p> | ![VideoCrafter2](assets/videocrafter2/2.gif)<br><p align="center">VideoCrafter2</p> | ![ModelScope](assets/modelscope/2.gif)<br><p align="center">ModelScope (Base Model)</p> | ![Demo](assets/demo/2.gif)<br><p align="center">Demo</p> |
+| <img src="assets/lavie/2.gif" alt="Lavie" width="200px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/2.gif" alt="VideoCrafter2" width="200px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/2.gif" alt="ModelScope" width="200px"><br><p align="center">ModelScope (Base Model)</p> | <img src="assets/demo/2.gif" alt="Demo" width="200px"><br><p align="center">Demo</p> |
 |-------|---------------|-------------------------|------|
 
 ---
 
 ### Jockeys racing.
 
-| ![Lavie](assets/lavie/3.gif)<br><p align="center">Lavie</p> | ![VideoCrafter2](assets/videocrafter2/3.gif)<br><p align="center">VideoCrafter2</p> | ![ModelScope](assets/modelscope/3.gif)<br><p align="center">ModelScope (Base Model)</p> | ![Demo](assets/demo/3.gif)<br><p align="center">Demo</p> |
+| <img src="assets/lavie/3.gif" alt="Lavie" width="200px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/3.gif" alt="VideoCrafter2" width="200px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/3.gif" alt="ModelScope" width="200px"><br><p align="center">ModelScope (Base Model)</p> | <img src="assets/demo/3.gif" alt="Demo" width="200px"><br><p align="center">Demo</p> |
 |-------|---------------|-------------------------|------|
-
- -->
 
 
 

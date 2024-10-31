@@ -19,102 +19,6 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 
-
-
-<!-- PROJECT LOGO -->
-
-<br />
-<!-- <div align="center">
-
-  <h3 align="center">DEMO: Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
-
-
-  <a herf="https://pr-ryan.github.io/">Penghui Ruan</a>,
-  <a herf="https://wangpichao.github.io/">Pichao Wang</a>,
-  <a herf="https://www.polyu.edu.hk/comp/people/academic-staff/dr-saxena-divya/">Divya Saxena</a>,
-  <a herf="https://www4.comp.polyu.edu.hk/~csjcao/">Jiannong Cao</a>,
-  <a herf="https://www.sustech.edu.cn/en/faculties/shiyuhui.html">Yuhui Shi</a>
-  <h4 align="center">Accepted at NeurIPS 2024 (Poster)</h4>
-
-</div>
-
-![](assets/architecture.jpeg)
-
-<div style="display: flex; text-align: center; gap: 5px; ">
-
-  <figure style="width: 25%; margin: 0;">
-      <figcaption>Lavie</figcaption>
-    <img src="assets/lavie/1.gif" alt="Lavie GIF" width="100%">
-
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-      <figcaption>VideoCrafter2</figcaption>
-    <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2 GIF" width="100%">
-
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-      <figcaption>ModelScope (Base Model)</figcaption>
-    <img src="assets/modelscope/1.gif" alt="ModelScope GIF" width="100%">
-
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-    <figcaption>Demo</figcaption>
-    <img src="assets/demo/1.gif" alt="Demo GIF" width="100%">
-  </figure>
-</div>
-<h3 align="center"> Slow motion flower petals fall from a blossom, landing softly on the ground.</h3>
-
-
-<div style="display: flex; text-align: center; gap: 5px; ">
-
-  <figure style="width: 25%; margin: 0;">
-    <img src="assets/lavie/2.gif" alt="Lavie GIF" width="100%">
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-    <img src="assets/videocrafter2/2.gif" alt="VideoCrafter2 GIF" width="100%">
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-    <img src="assets/modelscope/2.gif" alt="ModelScope GIF" width="100%">
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-    <img src="assets/demo/2.gif" alt="Demo GIF" width="100%">
-  </figure>
-</div>
-<h3 align="center">An old man with white hair is shown speaking.</h3>
-
-
-<div style="display: flex; text-align: center; gap: 5px; ">
-
-  <figure style="width: 25%; margin: 0;">
-    <img src="assets/lavie/3.gif" alt="Lavie GIF" width="100%">
-
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-    <img src="assets/videocrafter2/3.gif" alt="VideoCrafter2 GIF" width="100%">
-
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-    <img src="assets/modelscope/3.gif" alt="ModelScope GIF" width="100%">
-
-  </figure>
-
-  <figure style="width: 25%; margin: 0;">
-    <img src="assets/demo/3.gif" alt="Demo GIF" width="100%">
-  </figure>
-</div>
-<h3 align="center">Jockeys racing.</h3>
-
-
- -->
-
 <!-- 
 <!-- Centered Title and Authors -->
 <h3 align="center">DEMO: Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
@@ -133,21 +37,21 @@
 ![Architecture](assets/architecture.jpeg)
 ### Slow motion flower petals fall from a blossom, landing softly on the ground.
 
-| <img src="assets/lavie/1.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/1.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope (Base Model)</p> | <img src="assets/demo/1.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
+| <img src="assets/lavie/1.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/1.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/1.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
 |-------|---------------|-------------------------|------|
 
 ---
 
 ### An old man with white hair is shown speaking.
 
-| <img src="assets/lavie/2.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/2.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/2.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope (Base Model)</p> | <img src="assets/demo/2.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
+| <img src="assets/lavie/2.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/2.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/2.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/2.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
 |-------|---------------|-------------------------|------|
 
 ---
 
 ### Jockeys racing.
 
-| <img src="assets/lavie/3.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/3.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/3.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope (Base Model)</p> | <img src="assets/demo/3.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
+| <img src="assets/lavie/3.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/3.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/3.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/3.gif" alt="Demo" width="180px"><br><p align="center">Demo</p> |
 |-------|---------------|-------------------------|------|
 
 

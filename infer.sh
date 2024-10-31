@@ -1,1 +1,0 @@
-singularity run --nv ~/cuda12.3/cuda12.3_ubuntu.sif bash scripts/inference_deepspeed.sh

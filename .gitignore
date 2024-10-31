@@ -4,3 +4,6 @@
 .vscode/
 __pycache__/
 *.mp4
+infer.sh
+train.sh
+inference/

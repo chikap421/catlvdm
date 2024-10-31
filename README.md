@@ -92,7 +92,7 @@ pip install -r requirements.txt
 
 ### 2. Inference
 
-#### Download Pretrained Models from ModelScope
+#### Download Pretrained Models from ModelScope (for VAE and Text Encoder)
 
 To download pretrained models, run the following command:
 
@@ -102,9 +102,9 @@ bash models/download.sh
 
 Alternatively, you can download directly from [Hugging Face](https://huggingface.co/ali-vilab/modelscope-damo-text-to-video-synthesis) and place the downloaded folder in `models/modelscopet2v`.
 
-#### Download Fine-Tuned Checkpoints
+#### Download DEMO Checkpoints
 
-Download our fine-tuned [checkpoints](https://huggingface.co/Ryan-PR/DEMO) from Hugging Face and place the folder under `models`.
+Download DEMO [checkpoints](https://huggingface.co/Ryan-PR/DEMO) from Hugging Face and place the folder under `models`.
 
 #### Prepare Inference Prompt
 
@@ -122,7 +122,7 @@ id,prompt
 To start inference, run:
 
 ```bash
-bash scripts/inference_deeepspeed.sh
+bash scripts/inference_deepspeed.sh
 ```
 
 By default, distributed inference is enabled and all available GPUs are used. To manually specify GPUs, add the `--include` flag in the DeepSpeed command:
@@ -140,7 +140,7 @@ All configurations for inference are found in `configs/t2v_inference_deepspeed.y
 - **`decoder_bs`**: Define the batch size for VAE decoding.
 - **`pretrained`**: Set checkpoint paths for pretrained models.
 
-The DeepSpeed configurations for inference are located in `ds_config/ds_config_inference.json`. You can also use a custom DeepSpeed configuration by modifying the `deepspeed_config` setting in `configs/t2v_inference_deepspeed.yaml`.
+The DeepSpeed configurations for inference are located in `ds_configs/ds_config_inference.json`. You can also use a custom DeepSpeed configuration by modifying the `deepspeed_config` setting in `configs/t2v_inference_deepspeed.yaml`.
 
  With our optimized inference code, this model can generate video at 256x256 resolution with 16 frames on an 8GB GPU with a batch size of 1.
 
@@ -172,7 +172,7 @@ You can also direcly download from [huggingface](https://huggingface.co/ali-vila
 To train the model, run the following command:
 
 ```bash
-bash scripts/train_deeepspeed.sh
+bash scripts/train_deepspeed.sh
 ```
 
 By default, data distributed parallel training is used, utilizing all available GPUs. If you want to manually specify the GPUs, add the `--include` flag to the DeepSpeed command:
@@ -188,7 +188,7 @@ All training configurations are in the `configs/t2v_train_deepspeed.yaml` file. 
 - **`train_dataset`**: Define your dataset type and provide the prompt path.
 - **`pretrained`**: Specify the checkpoint paths for pretrained models.
 
-The DeepSpeed configurations for training are located in `ds_config/ds_config_train.json`. You can customize these settings or provide your own DeepSpeed configuration by modifying the `deepspeed_config` parameter in `configs/t2v_train_deepspeed.yaml`.
+The DeepSpeed configurations for training are located in `ds_configs/ds_config_train.json`. You can customize these settings or provide your own DeepSpeed configuration by modifying the `deepspeed_config` parameter in `configs/t2v_train_deepspeed.yaml`.
 
 #### Key DeepSpeed Settings
 

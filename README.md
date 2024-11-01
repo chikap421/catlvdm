@@ -264,6 +264,16 @@ This repository is largely based on [VGen](https://github.com/ali-vilab/VGen) by
 
 
 ## BibTex
-
+```
+@misc{ruan2024enhancingmotiontexttovideogeneration,
+      title={Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning}, 
+      author={Penghui Ruan and Pichao Wang and Divya Saxena and Jiannong Cao and Yuhui Shi},
+      year={2024},
+      eprint={2410.24219},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2410.24219}, 
+}
+```
 
 

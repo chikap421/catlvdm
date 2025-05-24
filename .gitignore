@@ -1,2 +1,32 @@
+# macOS system files
 .DS_Store
+
+# Model weights / checkpoints
 *.pth
+*.ckpt
+*.pt
+*.bin
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.so
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs & temp
+*.log
+*.tmp
+*.out
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# VSCode settings
+.vscode/
+
+# Colab runtime artifacts
+sample_data/

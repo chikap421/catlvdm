@@ -138,14 +138,15 @@ To run inference with pre-trained CAT-LVDM checkpoints:
 bash scripts/inference_deepspeed.sh
 ```
 
-> Output videos are saved in `results/` (default path in config).
+> Output videos are saved in `log_dir` (specify path in config).
 
-Prompts should be formatted as:
+Prompts should be formatted as a CSV file:
 ```
 id,prompt
 1,A scientist works in a clean lab.
 2,A camel walks across the desert.
 ```
+We provide curated sample prompts in: [prompts/sampled_captions.json](prompts/sampled_captions.json)
 
 Configurable options are defined in [`configs/t2v_inference_deepspeed.yaml`](configs/t2v_inference_deepspeed.yaml).
 
@@ -154,7 +155,7 @@ Configurable options are defined in [`configs/t2v_inference_deepspeed.yaml`](con
 
 #### Dataset Setup
 
-This repo supports training on WebVid-2M, MSR-VTT, MSVD, and UCF101.
+This repository supports training on the WebVid-2M training split, and inference on the WebVid-2M validation split, MSR-VTT, MSVD, and UCF101 datasets.
 
 #### Training Command
 
@@ -162,12 +163,25 @@ This repo supports training on WebVid-2M, MSR-VTT, MSVD, and UCF101.
 bash scripts/train_deepspeed.sh
 ```
 
-> To do multi-corruption training on multiple H100 and L40 GPUs. Use the appropriate launch script:
->
-> - `bash scripts/multi_train_h100.sh`
-> - `bash scripts/multi_train_l40.sh`
+### 4. Multi-Corruption Parallel Training & Inference
 
-Automatically adjusts corruption settings (`BCNI`, `SACN`, etc.) in `configs/t2v_inference_deepspeed.yaml`.
+To run multiple training or inference experiments in parallel with different corruption schemes (e.g., BCNI, SACN) and noise levels:
+
+#### Parallel Training
+Use the following script to launch multi-GPU training across various corruption settings:
+```bash
+bash scripts/multi_train.sh
+```
+
+#### Parallel Inference
+Similarly, run multi-setting inference using:
+```bash
+bash scripts/multi_inference.sh
+```
+
+These scripts automatically adjust corruption schemes and noise parameters defined in:
+- `configs/t2v_train_deepspeed.yaml` (for training)
+- `configs/t2v_inference_deepspeed.yaml` (for inference)
 
 #### TensorBoard
 

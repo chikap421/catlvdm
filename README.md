@@ -188,8 +188,12 @@ tensorboard --logdir=tensorboard_log/catlvdm
 ## TODO
 - [x] Structured corruption injection
 - [x] Full benchmark on 4 datasets
+- [ ] arXiv upload
 - [ ] Model checkpoints release
+- [ ] Collab Demo
 - [ ] Model evaluation
+
+
 
 
 

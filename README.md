@@ -148,6 +148,7 @@ CAT-LVDM introduces both **embedding-level** and **text-level** corruption metho
 
 Each folder on [Hugging Face](https://huggingface.co/Chikap421/catlvdm-checkpoints) follows the format: `corruptiontype_strength`, e.g., `bcni_10`, `swap_5`.
 The folder `results_2M_train` is used to denote the clean (non-corrupted) training setup without any embedding or text-level noise.
+
 ---
 
 ##### 🧬 Embedding-Level Corruptions

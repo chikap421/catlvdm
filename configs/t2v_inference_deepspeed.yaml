@@ -21,7 +21,7 @@ model_name: "DEMO"
 # For MSRVTT
 infer_dataset: {
     'type': 'InferenceDatasetMSRVTT',
-    'json_path': '/sciclone/data10/ccmaduabuchi/data/msrvtt/MSRVTT/annotation/sampled_2048_annotations.json',
+    'json_path': 'PATH_TO_MSRVTT_JSON',
     'repeat_times': 1,
 }
 
@@ -29,49 +29,35 @@ infer_dataset: {
 # # For MSVD
 # infer_dataset: {
 #     'type': 'InferenceDatasetMSVD',
-#     'json_path': '/sciclone/data10/ccmaduabuchi/data/msvd/msvd_annotations.json',
+#     'json_path': 'PATH_TO_MSVD_JSON',
 #     'repeat_times': 1,
 # }
 
 # # For WebVid
 # infer_dataset: {
 #     'type': 'InferenceDatasetWebVid',
-#     'csv_path': '/sciclone/data10/ccmaduabuchi/data/webvid/webvid-10M/data/val/partitions/results_10M_val.csv',
-#     'repeat_times': 1,
-# }
-
-# # For TGIF
-# infer_dataset: {
-#     'type': 'InferenceDatasetTGIF',
-#     'csv_path': '/sciclone/data10/ccmaduabuchi/data/tgif/data/tgif_annotations.csv',
+#     'csv_path': 'PATH_TO_WEBVID_CSV',
 #     'repeat_times': 1,
 # }
 
 # # For UCF101
 # infer_dataset: {
 #     'type': 'InferenceDatasetUCF101',
-#     'csv_path': '/sciclone/data10/ccmaduabuchi/data/ucf101/ucf_annotations.csv',
+#     'csv_path': 'PATH_TO_UCF101_CSV',
 #     'repeat_times': 1,
-# }
-
-# # For TestSet
-# infer_dataset: {
-#     'type': 'InferenceDatasetTest',
-#     'csv_path': '/sciclone/home/ccmaduabuchi/DEMO/prompts/test_prompt.csv',
-#     'repeat_times': 10,
 # }
 
 # # For VBench
 # infer_dataset: {
 #     'type': 'InferenceDatasetVBench',
-#     'json_path': '/sciclone/data10/ccmaduabuchi/data/vbench/temporal_flickering.json',
+#     'json_path': 'PATH_TO_VBENCH_JSON',
 #     'repeat_times': 5,
 # }
 
 # # For EvalCrafter
 # infer_dataset: {
 #     'type': 'InferenceDatasetEvalCrafter',
-#     'csv_path': '/sciclone/data10/ccmaduabuchi/data/evalcrafter/evalcrafter_prompts.csv',
+#     'csv_path': 'PATH_TO_EVALCRAFTER_CSV',
 #     'repeat_times': 1,
 # }
 
@@ -85,19 +71,17 @@ embedder: {
 motion_encoder: {
     'type': 'MotionEncoder',
     'layer': 'penultimate',
-    'pretrained': '/sciclone/data10/ccmaduabuchi/workspace/corruption/gaussian_20/checkpoints/gaussian_20_motion_encoder.pth',
+    'pretrained': 'PATH_TO_MOTION_ENCODER',  # Path to .pth checkpoint file
     'freeze': True,
     'from_incomplete': True,
 }
-
 
 Pretrain: {
     'type': load_model,
     'from_modelscope': False,
     'inference': True,
-    'resume_checkpoint': '/sciclone/data10/ccmaduabuchi/workspace/corruption/gaussian_20/checkpoints/gaussian_20.pth',
+    'resume_checkpoint': 'PATH_TO_PRETRAINED_MODEL',  # Path to .pth checkpoint file
 }
-
 
 
 
@@ -149,7 +133,7 @@ guide_scale: 5.5
 scale: 8
 
 # Log
-log_dir: "/sciclone/data10/ccmaduabuchi/inference/guidance_scale/msrvtt/gaussian_20_guidance5.5"
+log_dir: "PATH_TO_SAVE_GENERATED_VIDEOS" 
 
 
 

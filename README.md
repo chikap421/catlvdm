@@ -129,8 +129,54 @@ pip install -r requirements.txt
 
 Ensure compatibility with `torch==2.1.2` compiled with `nvcc 12.1`.
 
+### 2. Checkpoints
 
-### 2. Inference
+We provide a comprehensive suite of CAT-LVDM model checkpoints trained under diverse structured corruption settings across multiple noise levels (2.5%, 5%, 7.5%, 10%, 15%, 20%). These are hosted at:  
+👉 [https://huggingface.co/Chikap421/catlvdm-checkpoints](https://huggingface.co/Chikap421/catlvdm-checkpoints)
+
+To download the **base model (ModelScope)** and optionally the CAT-LVDM checkpoints, run:
+
+➡️ [`models/download.sh`](models/download.sh)
+
+This script installs Git LFS and clones the required base model. To also download CAT-LVDM checkpoints, simply uncomment the final line in the script.
+
+---
+
+#### 📊 Corruption Types in CAT-LVDM
+
+CAT-LVDM introduces both **embedding-level** and **text-level** corruption methods to evaluate model robustness under structured noise. Each corruption scheme is applied across six corruption strengths (ρ = 2.5%, 5%, 7.5%, 10%, 15%, 20%).
+
+Each folder on [Hugging Face](https://huggingface.co/Chikap421/catlvdm-checkpoints) follows the format: `corruptiontype_strength`, e.g., `bcni_10`, `swap_5`.
+The folder `results_2M_train` is used to denote the clean (non-corrupted) training setup without any embedding or text-level noise.
+---
+
+##### 🧬 Embedding-Level Corruptions
+
+| Folder Prefix | Corruption Type                     | Description |
+|---------------|-------------------------------------|-------------|
+| `bcni`        | Batch-Centered Noise Injection      | Perturbs embeddings along intra-batch semantic axes. Encourages temporal coherence and semantic preservation. |
+| `sacn`        | Spectrum-Aware Contextual Noise     | Injects spectral noise aligned with principal low-frequency components. |
+| `gaussian`    | Isotropic Gaussian Noise            | Adds unstructured Gaussian noise to each dimension. |
+| `uniform`     | Isotropic Uniform Noise             | Injects bounded uniform noise independently across dimensions. |
+| `tani`        | Temporally-Aligned Noise Injection  | Aligns noise with motion direction across adjacent video frames. |
+| `hscan`       | Hierarchical Spectral Corruption    | Applies multiscale spectral noise with SACN + Gaussian fusion. |
+
+---
+
+##### ✏️ Text-Level Corruptions
+
+| Folder Prefix | Corruption Type      | Description |
+|---------------|----------------------|-------------|
+| `add`         | Text Addition        | Randomly inserts new tokens into the prompt. |
+| `remove`      | Text Removal         | Deletes tokens from the input text. |
+| `replace`     | Text Replacement     | Replaces existing tokens with others sampled from batch. |
+| `swap`        | Text Swap            | Swaps positions of two tokens in the sequence. |
+| `perturb`     | Text Perturbation    | Replaces tokens with visually or semantically noisy variants. |
+
+
+
+
+### 3. Inference
 
 To run inference with pre-trained CAT-LVDM checkpoints:
 
@@ -151,7 +197,7 @@ We provide curated sample prompts in: [prompts/sampled_captions.json](prompts/sa
 Configurable options are defined in [`configs/t2v_inference_deepspeed.yaml`](configs/t2v_inference_deepspeed.yaml).
 
 
-### 3. Training
+### 4. Training
 
 #### Dataset Setup
 
@@ -163,9 +209,9 @@ This repository supports training on the WebVid-2M training split, and inference
 bash scripts/train_deepspeed.sh
 ```
 
-### 4. Multi-Corruption Parallel Training & Inference
+### 5. Multi-Corruption Parallel Training & Inference
 
-To run multiple training or inference experiments in parallel with different corruption schemes (e.g., BCNI, SACN) and noise levels:
+To efficiently run parallel training or inference experiments across multiple corruption settings (e.g., BCNI, SACN), ablation variants, or noise levels, refer to the multi-script setup below:
 
 #### Parallel Training
 Use the following script to launch multi-GPU training across various corruption settings:

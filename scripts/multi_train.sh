@@ -1,37 +1,19 @@
 #!/bin/bash
 
-# Activate Conda environment
-eval "$(conda shell.bash hook)"
-conda activate /sciclone/home/ccmaduabuchi/miniconda3/envs/demo
-
-# Navigate to project directory
-cd /sciclone/home/ccmaduabuchi/DEMO
-
-# Set cache directories
-export TRITON_CACHE_DIR=/sciclone/home/ccmaduabuchi/.triton_cache
-export TRANSFORMERS_CACHE=/sciclone/home/ccmaduabuchi/.cache/huggingface
-export TORCH_HOME=/sciclone/home/ccmaduabuchi/.cache/torch
-export HF_HOME=/sciclone/home/ccmaduabuchi/.cache/huggingface
-export XDG_CACHE_HOME=/sciclone/home/ccmaduabuchi/.cache
-mkdir -p $TRANSFORMERS_CACHE $TORCH_HOME $HF_HOME $XDG_CACHE_HOME
-
-# Set CUDA paths
-export CUDA_HOME=$(dirname $(dirname $(which nvcc)))
-export PATH=$CUDA_HOME/bin:$PATH
-export CPATH=$CUDA_HOME/targets/x86_64-linux/include:$CPATH
-export LD_LIBRARY_PATH=$CUDA_HOME/targets/x86_64-linux/lib:$CUDA_HOME/lib64:$CUDA_HOME/lib:$LD_LIBRARY_PATH
+PATH_TO_LOG_DIR="/path/to/log_dir"
+PATH_TO_CONFIG="configs/t2v_train_deepspeed.yaml"
 
 # Get number of available GPUs
 NUM_GPUS=$(nvidia-smi --query-gpu=gpu_name --format=csv,noheader | wc -l)
 
 # Configuration file
-CONFIG="configs/t2v_train_deepspeed.yaml"
-TECHNIQUES=("uniform" "gaussian")
-NOISES=("0.025" "0.05" "0.075" "0.1" "0.15" "0.2")
+CONFIG="$PATH_TO_CONFIG"
+TECHNIQUES=("uniform" "gaussian") # Specify the techniques you want to run
+NOISES=("0.025" "0.05" "0.075" "0.1" "0.15" "0.2") # Specify the noise ratios you want to run (2.5% = 0.025, 5% = 0.05, etc.)
 
 JOB_COUNT=0
 
-LOG_DIR_BASE=$(python3 -c "import yaml; print(yaml.safe_load(open('$CONFIG'))['log_dir'])")
+LOG_DIR_BASE="$PATH_TO_LOG_DIR"
 
 declare -a JOBS_TO_RUN=()
 

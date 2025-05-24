@@ -10,9 +10,9 @@ freeze_unet: True
 
 train_dataset: {
     'type': 'WebVid',
-    'csv_path': '/sciclone/data10/ccmaduabuchi/data/webvid/webvid-10M/data/train/results_10M_train.csv',
-    'video_folder': '/sciclone/data10/ccmaduabuchi/data/webvid/webvid-10M/data/train/downloads/videos',
-    'resolution': [256,256], 
+    'csv_path': 'PATH_TO_WEBVID_CSV_TRAIN',        # CSV file containing training metadata
+    'video_folder': 'PATH_TO_WEBVID_VIDEO_DIR',    # Folder with downloaded videos
+    'resolution': [256, 256],
     'sample_n_frames': 16,
 }
 
@@ -21,7 +21,7 @@ embedder: {
     'layer': 'penultimate',
     'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
     'freeze': True,
-    'noise_type': 'sacn',  # Options: none, uniform, gaussian, gap, bcni, tani, sacn, hscan
+    'noise_type': 'sacn',  # Options: none, uniform, gaussian, bcni, tani, sacn, hscan
     'noise_ratio': 0.2  # Strength of noise (0.025, 0.05, 0.075, 0.1, 0.15, 0.2)
 }
 
@@ -118,7 +118,7 @@ use_zero_infer: True
 save_ckp_interval: 2000   # 500
 
 # Log
-log_dir: "/sciclone/data10/ccmaduabuchi/workspace/benchmark"
+log_dir: "PATH_TO_SAVE_MODEL_CHECKPOINTS"  # Directory to save model checkpoints
 log_interval: 100
 seed: 8888
 

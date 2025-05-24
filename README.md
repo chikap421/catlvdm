@@ -192,7 +192,7 @@ id,prompt
 1,A scientist works in a clean lab.
 2,A camel walks across the desert.
 ```
-We provide curated sample prompts in: [prompts/sampled_captions.json](prompts/sampled_captions.json)
+We provide curated sample prompts in: [`prompts/sampled_captions.json`](prompts/sampled_captions.json)
 
 Configurable options are defined in [`configs/t2v_inference_deepspeed.yaml`](configs/t2v_inference_deepspeed.yaml).
 

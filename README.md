@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="https://catlvdm.github.io/"><img src="https://img.shields.io/badge/Project-Page-green?style=flat-square&logo=github"></a>
+  <a href="https://github.com/chikap421/catlvdm"><img src="https://img.shields.io/badge/Project-Page-green?style=flat-square&logo=github"></a>
   <a href="https://arxiv.org/abs/2405.12345"><img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=flat-square&logo=arxiv"></a>
   <a href="https://huggingface.co/catlvdm"><img src="https://img.shields.io/badge/Model-HuggingFace-blue?style=flat-square&logo=huggingface"></a>
   <a href="https://colab.research.google.com/github/catlvdm/demo/blob/main/notebook.ipynb"><img src="https://img.shields.io/badge/Demo-Colab-orange?style=flat-square&logo=googlecolab"></a>

@@ -16,6 +16,7 @@ import hashlib
 import requests
 import binascii
 import zipfile
+import subprocess
 # import skvideo.io
 import numpy as np
 from io import BytesIO
@@ -220,58 +221,88 @@ def save_i2vgen_video_safe(
     if exception is not None:
         raise exception
 
-
-
 @torch.no_grad()
 def save_video(
     local_path,
     gen_video, 
     name_list=None,
+    dataset_type=None,
     rank=0, 
     mean=[0.5, 0.5, 0.5], 
     std=[0.5, 0.5, 0.5], 
     text_size=256, 
     retry=5,
-    save_fps = 8
+    save_fps=8
 ):
-    '''
-    Save only the generated video, do not save the related reference conditions, and at the same time perform anomaly detection on the last frame.
-    '''
-    vid_mean = torch.tensor(mean, device=gen_video.device).view(1, -1, 1, 1, 1) #ncfhw
-    vid_std = torch.tensor(std, device=gen_video.device).view(1, -1, 1, 1, 1) #ncfhw
+    """
+    Saves each generated video in 'gen_video' (shape [B, C, F, H, W]) 
+    into subfolders indicated by 'name_list'.
+    - local_path is the base directory, e.g. "/scratch/.../inference/<unique_run_folder>"
+    - name_list[index] might be "027701_027750/1053841541.mp4"
+      so final path is local_path + name_list[index]
+      => e.g. "/scratch/.../inference/<unique_run_folder>/027701_027750/1053841541.mp4"
+    """
+    if name_list is None:
+        raise ValueError("save_video requires a non-None name_list.")
 
-    gen_video = gen_video.mul_(vid_std).add_(vid_mean)  # 8x3x16x256x384
-    gen_video.clamp_(0, 1)
-    gen_video = gen_video * 255.0
+    # Convert to [0..255]
+    vid_mean = torch.tensor(mean, device=gen_video.device).view(1, -1, 1, 1, 1)
+    vid_std = torch.tensor(std, device=gen_video.device).view(1, -1, 1, 1, 1)
+    gen_video = gen_video.mul_(vid_std).add_(vid_mean).clamp_(0, 1).mul_(255.0)
 
+    # Reshape => [B, F, H, W, C]
     gen_video = rearrange(gen_video, 'b c f h w -> b f h w c')
     batch_size = gen_video.size(0)
+
     for index, images in enumerate(gen_video):
-        images = images.cpu()
-        images = [(img.numpy()).astype('uint8') for img in images]
-        num_image = len(images)
+        images = images.cpu().numpy().astype('uint8')  # shape => [F, H, W, C]
+        num_image = images.shape[0]
         exception = None
+
+        # Build the final output path
+        # E.g. local_path="/scratch/.../20250124_043255_e56bf453"
+        # name_list[index]="027701_027750/1053841541.mp4"
+        # => output_file="/scratch/.../20250124_043255_e56bf453/027701_027750/1053841541.mp4"
+        if any(x in dataset_type for x in ["WebVid", "UCF101"]):
+            output_file = os.path.join(local_path, name_list[index])
+        else:
+            output_file = os.path.join(local_path, os.path.basename(name_list[index]))
+        os.makedirs(os.path.dirname(output_file), exist_ok=True)
+
         for _ in [None] * retry:
             try:
                 if num_image == 1:
-                    local_path = local_path + '.png'
-                    cv2.imwrite(local_path, images[0][:,:,::-1], [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+                    # Single frame => .png
+                    png_path = output_file + ".png"
+                    cv2.imwrite(png_path, images[0][:, :, ::-1],
+                                [int(cv2.IMWRITE_JPEG_QUALITY), 100])
                 else:
-                    frame_dir = os.path.join(os.path.dirname(local_path), f'temp_{rank}')
-                    os.system(f'rm -rf {frame_dir}'); os.makedirs(frame_dir, exist_ok=True)
+                    # Multiple frames => create a consistent temp folder under local_path
+                    # instead of using os.path.dirname(output_file)
+                    # to avoid accidentally writing "/temp_0".
+                    frame_dir = os.path.join(local_path, f"temp_{rank}")
+                    
+                    # Clean up old temp folder if it exists
+                    os.system(f"rm -rf {frame_dir}")
+                    os.makedirs(frame_dir, exist_ok=True)
+
+                    # Write out each frame
                     for fid, frame in enumerate(images):
-                        # if fid == num_image-1: # Fix known bugs.
-                        #     ratio = (np.sum((frame >= 117) & (frame <= 137)))/(frame.size)
-                        #     if ratio > 0.4: continue
-                        tpth = os.path.join(frame_dir, '%04d.png' % (fid+1))
-                        cv2.imwrite(tpth, frame[:,:,::-1], [int(cv2.IMWRITE_JPEG_QUALITY), 100])
-                    cmd = f'ffmpeg -y -f image2 -loglevel quiet -framerate {save_fps} -i {frame_dir}/%04d.png -vcodec libx264 -crf 17  -pix_fmt yuv420p {local_path}/{name_list[index]}'
-                    os.system(cmd) 
-                    os.system(f'rm -rf {frame_dir}')
+                        tpth = os.path.join(frame_dir, f"{fid+1:04d}.png")
+                        cv2.imwrite(tpth, frame[:, :, ::-1],
+                                    [int(cv2.IMWRITE_JPEG_QUALITY), 100])
+
+                    cmd = (
+                        f'ffmpeg -y -f image2 -loglevel quiet -framerate {save_fps} '
+                        f'-i {frame_dir}/%04d.png -vcodec libx264 -crf 17 -pix_fmt yuv420p "{output_file}"'
+                    )
+                    os.system(cmd)
+                    os.system(f"rm -rf {frame_dir}")  # Remove temp frames
                 break
             except Exception as e:
                 exception = e
                 continue
-        
+
         if exception is not None:
             raise exception
+

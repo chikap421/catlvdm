@@ -1,73 +1,115 @@
-<!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
-<a id="readme-top"></a>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
-<!-- 
-<!-- Centered Title and Authors -->
-<h3 align="center">Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning</h3>
+<h1 align="center">CAT-LVDM: Corruption-Aware Training of Latent Video Diffusion Models</h1>
 
 <p align="center">
-  <a href="https://pr-ryan.github.io/">Penghui Ruan</a><sup>1,2</sup>,
-  <a href="https://wangpichao.github.io/">Pichao Wang</a><sup>3</sup>,
-  <a href="https://www.polyu.edu.hk/comp/people/academic-staff/dr-saxena-divya/">Divya Saxena</a><sup>1</sup>,
-  <a href="https://www4.comp.polyu.edu.hk/~csjcao/">Jiannong Cao</a><sup>1</sup>,
-  <a href="https://www.sustech.edu.cn/en/faculties/shiyuhui.html">Yuhui Shi</a><sup>2</sup>
+  <b><a href="https://scholar.google.com/citations?user=YrLydoQAAAAJ&hl=en/">Chika Maduabuchi</a></b>,
+  <b><a href="https://hhhhhhao.github.io/">Hao Chen</a></b>,
+  <b><a href="https://yujinhanml.github.io/">Yujin Han</a></b>,
+  <b><a href="https://jd92.wang/">Jindong Wang</a></b>
 </p>
-<p align="center"><sup>1</sup> The Hong Kong Polytechnic University, Hong Kong</p>
-<p align="center"><sup>2</sup> Southern University of Science and Technology, Shenzhen</p>
-<p align="center"><sup>3</sup> Amazon, United States</p>
 
-<p align="center">Accepted at NeurIPS 2024</p>
 <p align="center">
-  <a href='https://pr-ryan.github.io/DEMO-project/'>
-    <img src='https://img.shields.io/badge/Project-Page-Green'>
-  </a>
-  <a href='https://arxiv.org/abs/2410.24219'>
-    <img src='https://img.shields.io/badge/Paper-Arxiv-red'>
-  </a>
+  <a href="https://catlvdm.github.io/"><img src="https://img.shields.io/badge/Project-Page-green?style=flat-square&logo=github"></a>
+  <a href="https://arxiv.org/abs/2405.12345"><img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=flat-square&logo=arxiv"></a>
+  <a href="https://huggingface.co/catlvdm"><img src="https://img.shields.io/badge/Model-HuggingFace-blue?style=flat-square&logo=huggingface"></a>
+  <a href="https://colab.research.google.com/github/catlvdm/demo/blob/main/notebook.ipynb"><img src="https://img.shields.io/badge/Demo-Colab-orange?style=flat-square&logo=googlecolab"></a>
+</p>
+
+<p align="center">
+  <i>This repository contains the code for CAT-LVDM: a corruption-aware training framework for robust latent video diffusion models.</i>
 </p>
 
 ---
 
-![Architecture](assets/architecture.jpeg)
+<p align="center">
+  <img src="assets/overview.png" width="700"/>
+</p>
+
+<p align="center"><b>Figure:</b> <i>(a) Visual comparison of generation quality across corruption schemes</i> (BCNI, Gaussian, Uniform, Clean) for the prompt <b>"Cat plays with holiday baubles."</b> <i>(b) Quantitative summary</i> of performance on FVD (↓), VBench (↑), and EvalCrafter (↑). Our method, <b>BCNI (ours)</b>, outperforms others in both semantic fidelity and motion realism under structured noise.</p>
 
 ---
 
-### Slow motion flower petals fall from a blossom, landing softly on the ground.
+### Robustness under Corruption
 
-| <img src="assets/lavie/1.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/1.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/1.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/1.gif" alt="Demo" width="180px"><br><p align="center">DEMO</p> |
-|-------|---------------|-------------------------|------|
+<p align="center"><b>Prompt:</b> Rotation, close-up, falling drops of water on ripe cucumbers.</p>
 
----
+<table align="center">
+<tr>
+  <td align="center"><img src="assets/bcni/1.gif" width="180px"><br><b>BCNI (ours)</b></td>
+  <td align="center"><img src="assets/gaussian/1.gif" width="180px"><br><b>Gaussian</b></td>
+  <td align="center"><img src="assets/uniform/1.gif" width="180px"><br><b>Uniform</b></td>
+  <td align="center"><img src="assets/clean/1.gif" width="180px"><br><b>Clean</b></td>
+</tr>
+</table>
 
-### An old man with white hair is shown speaking.
+<p align="center"><b>Prompt:</b> Seascape of coral reef in caribbean sea.</p>
 
-| <img src="assets/lavie/2.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/2.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/2.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/2.gif" alt="Demo" width="180px"><br><p align="center">DEMO</p> |
-|-------|---------------|-------------------------|------|
+<table align="center">
+<tr>
+  <td align="center"><img src="assets/bcni/2.gif" width="180px"><br><b>BCNI (ours)</b></td>
+  <td align="center"><img src="assets/gaussian/2.gif" width="180px"><br><b>Gaussian</b></td>
+  <td align="center"><img src="assets/uniform/2.gif" width="180px"><br><b>Uniform</b></td>
+  <td align="center"><img src="assets/clean/2.gif" width="180px"><br><b>Clean</b></td>
+</tr>
+</table>
 
----
+<p align="center"><b>Prompt:</b> Walking with Dog.</p>
 
-### Jockeys racing.
+<table align="center">
+<tr>
+  <td align="center"><img src="assets/sacn/3.gif" width="180px"><br><b>SACN (ours)</b></td>
+  <td align="center"><img src="assets/gaussian/3.gif" width="180px"><br><b>Gaussian</b></td>
+  <td align="center"><img src="assets/uniform/3.gif" width="180px"><br><b>Uniform</b></td>
+  <td align="center"><img src="assets/clean/3.gif" width="180px"><br><b>Clean</b></td>
+</tr>
+</table>
 
-| <img src="assets/lavie/3.gif" alt="Lavie" width="180px"><br><p align="center">Lavie</p> | <img src="assets/videocrafter2/3.gif" alt="VideoCrafter2" width="180px"><br><p align="center">VideoCrafter2</p> | <img src="assets/modelscope/3.gif" alt="ModelScope" width="180px"><br><p align="center">ModelScope</p> | <img src="assets/demo/3.gif" alt="Demo" width="180px"><br><p align="center">DEMO</p> |
-|-------|---------------|-------------------------|------|
+<p align="center"><b>Prompt:</b> Close up of indian biryani rice slowly cooked and stirred.</p>
+
+<table align="center">
+<tr>
+  <td align="center"><img src="assets/bcni/4.gif" width="180px"><br><b>BCNI (ours)</b></td>
+  <td align="center"><img src="assets/gaussian/4.gif" width="180px"><br><b>Gaussian</b></td>
+  <td align="center"><img src="assets/uniform/4.gif" width="180px"><br><b>Uniform</b></td>
+  <td align="center"><img src="assets/clean/4.gif" width="180px"><br><b>Clean</b></td>
+</tr>
+</table>
+
+<p align="center"><b>Prompt:</b> Natural colorful waterfall.</p>
+
+<table align="center">
+<tr>
+  <td align="center"><img src="assets/bcni/5.gif" width="180px"><br><b>BCNI (ours)</b></td>
+  <td align="center"><img src="assets/gaussian/5.gif" width="180px"><br><b>Gaussian</b></td>
+  <td align="center"><img src="assets/uniform/5.gif" width="180px"><br><b>Uniform</b></td>
+  <td align="center"><img src="assets/clean/5.gif" width="180px"><br><b>Clean</b></td>
+</tr>
+</table>
+
+<p align="center"><b>Prompt:</b> Two business women using a touchpad in the office are busy discussing matters.</p>
+
+<table align="center">
+<tr>
+  <td align="center"><img src="assets/bcni/6.gif" width="180px"><br><b>BCNI (ours)</b></td>
+  <td align="center"><img src="assets/gaussian/6.gif" width="180px"><br><b>Gaussian</b></td>
+  <td align="center"><img src="assets/uniform/6.gif" width="180px"><br><b>Uniform</b></td>
+  <td align="center"><img src="assets/clean/6.gif" width="180px"><br><b>Clean</b></td>
+</tr>
+</table>
+
+<p align="center"><b>Prompt:</b> Technician in white coat walking down factory storage, opening laptop and starting work.</p>
+
+<table align="center">
+<tr>
+  <td align="center"><img src="assets/bcni/7.gif" width="180px"><br><b>BCNI (ours)</b></td>
+  <td align="center"><img src="assets/gaussian/7.gif" width="180px"><br><b>Gaussian</b></td>
+  <td align="center"><img src="assets/uniform/7.gif" width="180px"><br><b>Uniform</b></td>
+  <td align="center"><img src="assets/clean/7.gif" width="180px"><br><b>Clean</b></td>
+</tr>
+</table>
+
+
+
+
 
 
 
@@ -75,152 +117,65 @@
 
 ### 1. Getting Started
 
-#### Install FFmpeg
+This repo implements **CAT-LVDM**, a corruption-aware training framework that improves the robustness of latent video diffusion models via structured noise (BCNI/SACN).
 
-To save videos, FFmpeg is required. Install it using the following command:
+#### Requirements
 
-```bash
-sudo apt-get update && sudo apt-get install ffmpeg libsm6 libxext6 -y
 ```
-
-#### Environment Preparation
-
-Clone the repository:
-
-```bash
-git clone git@github.com:PR-Ryan/DEMO.git
-```
-
-Set up the Python environment:
-
-```bash
-conda create -n demo python=3.8
-conda activate demo
+conda create -n catlvdm python=3.8
+conda activate catlvdm
 pip install -r requirements.txt
 ```
 
-> **Note:** Our `requirements.txt` specifies `torch==2.1.2`, compiled with `nvcc 12.1`. You may adjust this according to your setup, but ensure that your `torch` installation is compatible with the `nvcc` version installed on your system. For more details, refer to the [PyTorch installation guide](https://pytorch.org/get-started/locally/).
+Ensure compatibility with `torch==2.1.2` compiled with `nvcc 12.1`.
 
 
 ### 2. Inference
 
-#### Download Pretrained Models from ModelScope (for VAE and Text Encoder)
-
-To download pretrained models, run the following command:
-
-```bash
-bash models/download.sh
-```
-
-Alternatively, you can download directly from [Hugging Face](https://huggingface.co/ali-vilab/modelscope-damo-text-to-video-synthesis) and place the downloaded folder in `models/modelscopet2v`.
-
-#### Download DEMO Checkpoints
-
-Download DEMO [checkpoints](https://huggingface.co/Ryan-PR/DEMO) from Hugging Face and place the folder under `models`.
-
-#### Prepare Inference Prompt
-
-Create an inference prompt file at `prompts/test_prompt.csv`. Here’s an example format:
-
-```csv
-id,prompt
-1,a fat dog is playing in the yard.
-2,a fat car is parked by the road.
-3,a fat balloon is floating in the air.
-```
-
-#### Start Inference
-
-To start inference, run:
+To run inference with pre-trained CAT-LVDM checkpoints:
 
 ```bash
 bash scripts/inference_deepspeed.sh
 ```
 
-By default, distributed inference is enabled and all available GPUs are used. To manually specify GPUs, add the `--include` flag in the DeepSpeed command:
+> Output videos are saved in `results/` (default path in config).
 
-```bash
---include="localhost:<your gpu ids>"
+Prompts should be formatted as:
+```
+id,prompt
+1,A scientist works in a clean lab.
+2,A camel walks across the desert.
 ```
 
-### Inference Configuration
-
-All configurations for inference are found in `configs/t2v_inference_deepspeed.yaml`. In this file, you can adjust the following settings:
-
-- **`infer_dataset`**: Specify your dataset type and prompt path.
-- **`batch_size`**: Set the batch size for diffusion sampling.
-- **`decoder_bs`**: Define the batch size for VAE decoding.
-- **`pretrained`**: Set checkpoint paths for pretrained models.
-
-The DeepSpeed configurations for inference are located in `ds_configs/ds_config_inference.json`. You can also use a custom DeepSpeed configuration by modifying the `deepspeed_config` setting in `configs/t2v_inference_deepspeed.yaml`.
-
- With our optimized inference code, this model can generate video at 256x256 resolution with 16 frames on an 8GB GPU with a batch size of 1.
-
-
+Configurable options are defined in [`configs/t2v_inference_deepspeed.yaml`](configs/t2v_inference_deepspeed.yaml).
 
 
 ### 3. Training
 
-#### Dataset Preparation
+#### Dataset Setup
 
-Follow the instructions to download the [WebVid-10M](https://github.com/m-bain/webvid) dataset. We provide an example training dataset in `data/webvid/train_sample.csv`. You can manually download these sample videos and place them in `data/webvid/videos` for sample training.
+This repo supports training on WebVid-2M, MSR-VTT, MSVD, and UCF101.
 
-If you prefer to use your own dataset, refer to `tools/datasets/video_datasets.py` to define your dataset and preprocessing steps.
-
-
-
-#### Download pretrained models from ModelScope
-```bash
-bash models/download.sh
-```
-You can also direcly download from [huggingface](https://huggingface.co/ali-vilab/modelscope-damo-text-to-video-synthesis) and place the folder as `models/modelscopet2v`
-
-
-
-
-
-#### Train the Model
-
-To train the model, run the following command:
+#### Training Command
 
 ```bash
 bash scripts/train_deepspeed.sh
 ```
 
-By default, data distributed parallel training is used, utilizing all available GPUs. If you want to manually specify the GPUs, add the `--include` flag to the DeepSpeed command:
+> To do multi-corruption training on multiple H100 and L40 GPUs. Use the appropriate launch script:
+>
+> - `bash scripts/multi_train_h100.sh`
+> - `bash scripts/multi_train_l40.sh`
+
+Automatically adjusts corruption settings (`BCNI`, `SACN`, etc.) in `configs/t2v_inference_deepspeed.yaml`.
+
+#### TensorBoard
 
 ```bash
---include="localhost:<gpu_ids>"
+tensorboard --logdir=tensorboard_log/catlvdm
 ```
 
-#### Training Configuration
-
-All training configurations are in the `configs/t2v_train_deepspeed.yaml` file. You can customize the following settings:
-
-- **`train_dataset`**: Define your dataset type and provide the prompt path.
-- **`pretrained`**: Specify the checkpoint paths for pretrained models.
-
-The DeepSpeed configurations for training are located in `ds_configs/ds_config_train.json`. You can customize these settings or provide your own DeepSpeed configuration by modifying the `deepspeed_config` parameter in `configs/t2v_train_deepspeed.yaml`.
-
-#### Key DeepSpeed Settings
-
-In `ds_config/ds_config_train.json`, you can specify:
-
-- **`train_micro_batch_size_per_gpu`**: The batch size for each GPU.
-- **`gradient_accumulation_steps`**: Number of steps for gradient accumulation.
-- **`zero_optimization`**: Configurations for DeepSpeed's ZeRO optimization. By default, we use stage 2 with optimizer offloading to the CPU, which may increase CPU memory usage. Disable this if you have limited CPU memory. If your GPUs have large memory, you can switch to stage 1 for faster convergence.
-- **`optimizer`**: By default, we use DeepSpeed's highly optimized CPU Adam for faster training, which requires compiling with `nvcc` during the first run. You may need to set `CUDA_HOME` and `LD_LIBRARY_PATH` environment variables. Alternatively, you can simply skip this by switching to another optimizer in `ds_config/ds_config_train.json`. Refer to the [DeepSpeed documentation](https://www.deepspeed.ai/) for more information.
-
-> **Note**: Ensure that your `nvcc` version matches the version used to compile PyTorch. If it does not, you can install `nvcc` within your Conda environment and set the `CUDA_HOME` and `LD_LIBRARY_PATH` to point to the Conda-installed `nvcc`. For more details, refer to the [CUDA Installation Guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/#conda-installation).
-
-
-#### Monitor Training
-
-TensorBoard is enabled by default for monitoring the training process. To view the training progress, launch TensorBoard with:
-
-```bash
-tensorboard --logdir=tensorboard_log/demo
-```
+> Logs are saved in `tensorboard_log/catlvdm/`.
 
 
 
@@ -231,11 +186,10 @@ tensorboard --logdir=tensorboard_log/demo
 
 <!-- ROADMAP -->
 ## TODO
-
-- [x] Release model weights.
-- [x] Release inference and training code.
-- [ ] Huggingface demo.
-- [ ] Gradio application.
+- [x] Structured corruption injection
+- [x] Full benchmark on 4 datasets
+- [ ] Model checkpoints release
+- [ ] Model evaluation
 
 
 
@@ -244,36 +198,14 @@ tensorboard --logdir=tensorboard_log/demo
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See [LICENSE.txt](./LICENSE.txt) for more information.
 
 
 
-<!-- CONTACT -->
-## Contact
-
-Penghui Ruan - penghui.ruan@connect.polyu.hk
-
-Project Link: [https://pr-ryan.github.io/DEMO-project/](https://pr-ryan.github.io/DEMO-project/)
 
 
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-This repository is largely based on [VGen](https://github.com/ali-vilab/VGen) by Alibaba. We sincerely thank them for their contributions to the open-source community.
-
-
-## BibTex
-```
-@misc{ruan2024enhancingmotiontexttovideogeneration,
-      title={Enhancing Motion in Text-to-Video Generation with Decomposed Encoding and Conditioning}, 
-      author={Penghui Ruan and Pichao Wang and Divya Saxena and Jiannong Cao and Yuhui Shi},
-      year={2024},
-      eprint={2410.24219},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2410.24219}, 
-}
-```
-
-
+Our implementation is adapted from [DEMO](https://github.com/pr-ryan/DEMO) and [VGen](https://github.com/ali-vilab/VGen). We thank the authors for their open-source contributions.

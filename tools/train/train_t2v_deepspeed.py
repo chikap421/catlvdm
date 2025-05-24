@@ -135,8 +135,16 @@ class ModelWrapper(nn.Module):
                 eot_tokens = temporal_y_words[sample_idx, eot_idx, :]
                 regularization_loss = -F.cosine_similarity(eot_tokens, image_embeddings, dim=-1)            
 
-            y_words[torch.rand(y_words.size(0)) < cfg.p_zero, :] = zero_y_negative
-            
+            # changes made for cep-cl: zero out some words
+            # Fixes device and dtype mismatch when assigning zero_y_negative to y_words
+            y_words[torch.rand(y_words.size(0), device=y_words.device) < cfg.p_zero, :] = zero_y_negative.to(y_words.dtype)
+
+            # Original line (before fix)
+            # y_words[torch.rand(y_words.size(0)) < cfg.p_zero, :] = zero_y_negative
+            # Issues: 
+            # - Device mismatch: torch.rand() is CPU by default, may mismatch with GPU y_words
+            # - Dtype mismatch: zero_y_negative may be float16, y_words may be float32
+
             model_kwargs = {'y': y_words, 'temporal_y': temporal_y_words, 'eot_idx': eot_idx}
             
             diffusion_loss,video_motion_loss, attention_store = self.diffusion.loss(
@@ -162,10 +170,16 @@ def deepspeed_worker_wrapper(cfg):
     torch.backends.cudnn.benchmark = True
 
     # [Log] Save logging
-    time_str = datetime.now().strftime('%m-%d_%H:%M')
     log_dir = generalized_all_gather(cfg.log_dir)[0]
-    exp_name = osp.basename(cfg.cfg_file).split('.')[0]
-    cfg.log_dir = osp.join(cfg.log_dir, exp_name+time_str)
+    # Extract experiment name from noise type and noise ratio
+    noise_type = cfg.embedder['noise_type']
+    noise_ratio = cfg.embedder['noise_ratio'] * 100
+    if noise_ratio.is_integer():
+        noise_ratio_str = f"{int(noise_ratio)}"
+    else:
+        noise_ratio_str = f"{noise_ratio:.1f}"
+    cfg.exp_name = f"{noise_type}_{noise_ratio_str}"
+    cfg.log_dir = osp.join(cfg.log_dir, cfg.exp_name)  # Use extracted experiment name
     os.makedirs(cfg.log_dir, exist_ok=True)
     if cfg.rank == 0:
         log_file = osp.join(cfg.log_dir, 'log.txt')
@@ -231,7 +245,15 @@ def deepspeed_worker_wrapper(cfg):
         if step == cfg.num_steps or step % cfg.save_ckp_interval == 0:
             os.makedirs(osp.join(cfg.log_dir, 'checkpoints'), exist_ok=True)
             if cfg.rank == 0:
-                local_model_path = osp.join(cfg.log_dir, f'checkpoints/non_ema_{step:08d}.pth')
+                noise_type = cfg.embedder['noise_type']
+                noise_ratio = cfg.embedder['noise_ratio'] * 100
+                if noise_ratio.is_integer():
+                    noise_ratio_str = f"{int(noise_ratio)}"
+                else:
+                    noise_ratio_str = f"{noise_ratio:.1f}"
+                noise_tag = f"{noise_type}_{noise_ratio_str}"
+
+                local_model_path = osp.join(cfg.log_dir, f'checkpoints/{noise_tag}_{step:08d}.pth')
                 logging.info(f'Begin to Save model to {local_model_path}')
                 save_dict = {
                     'unet_state_dict': model_engine.module.model.state_dict(),
@@ -239,10 +261,7 @@ def deepspeed_worker_wrapper(cfg):
                 torch.save(save_dict, local_model_path)
                 print(f'Save model to {local_model_path}')
                 if "motion_encoder" in cfg:
-                    temporal_model_path = osp.join(cfg.log_dir, f'checkpoints/non_ema_{step:08d}_motion_encoder.pth')
+                    temporal_model_path = osp.join(cfg.log_dir, f'checkpoints/{noise_tag}_{step:08d}_motion_encoder.pth')
                     temporal_state_dict = model_engine.module.motion_encoder.model.state_dict()
                     torch.save(temporal_state_dict,temporal_model_path)
                     print(f'Save temporal model to {temporal_model_path}')
-                    
-                
-        

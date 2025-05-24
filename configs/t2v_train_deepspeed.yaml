@@ -1,7 +1,7 @@
 TASK_TYPE: train_t2v_deepspeed
 ENABLE: False
 use_ema: False
-num_workers: 16
+num_workers: 0 # Reduced number of workers to 0 from 16
 
 max_frames: 16
 sample_fps: 3
@@ -9,19 +9,20 @@ resolution: [256,256]
 freeze_unet: True
 
 train_dataset: {
-    'type': 'WebVid10M',
-    'csv_path': 'data/webvid/train_sample.csv',
-    'video_folder': 'data/webvid/videos',
+    'type': 'WebVid',
+    'csv_path': '/sciclone/data10/ccmaduabuchi/data/webvid/webvid-10M/data/train/results_10M_train.csv',
+    'video_folder': '/sciclone/data10/ccmaduabuchi/data/webvid/webvid-10M/data/train/downloads/videos',
     'resolution': [256,256], 
     'sample_n_frames': 16,
 }
-
 
 embedder: {
     'type': 'FrozenOpenCLIPEmbedder',
     'layer': 'penultimate',
     'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
-    'freeze': True
+    'freeze': True,
+    'noise_type': 'sacn',  # Options: none, uniform, gaussian, gap, bcni, tani, sacn, hscan
+    'noise_ratio': 0.2  # Strength of noise (0.025, 0.05, 0.075, 0.1, 0.15, 0.2)
 }
 
 motion_encoder: {
@@ -31,11 +32,14 @@ motion_encoder: {
     'freeze': False
 }
 
+
 clip_visual: {
     'type': 'FrozenOpenCLIPVisualEmbedder',
     'layer': 'penultimate',
     'pretrained': 'models/modelscopet2v/open_clip_pytorch_model.bin',
     'freeze': True,
+    'noise_type': 'sacn',  # Same options as above
+    'noise_ratio': 0.2
 }
 
 
@@ -108,13 +112,13 @@ motion_lr: 0.000001
 noise_strength: 0.1
 # classifier-free guidance
 p_zero: 0.1
-num_steps: 1000000
+num_steps: 10000
 
 use_zero_infer: True
 save_ckp_interval: 2000   # 500
 
 # Log
-log_dir: "workspace"
+log_dir: "/sciclone/data10/ccmaduabuchi/workspace/benchmark"
 log_interval: 100
 seed: 8888
 

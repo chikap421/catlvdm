@@ -25,7 +25,6 @@ infer_dataset: {
     'repeat_times': 1,
 }
 
-
 # # For MSVD
 # infer_dataset: {
 #     'type': 'InferenceDatasetMSVD',
@@ -59,20 +58,6 @@ infer_dataset: {
 #     'type': 'InferenceDatasetTest',
 #     'csv_path': '/sciclone/home/ccmaduabuchi/DEMO/prompts/test_prompt.csv',
 #     'repeat_times': 10,
-# }
-
-# # For VBench
-# infer_dataset: {
-#     'type': 'InferenceDatasetVBench',
-#     'json_path': '/sciclone/data10/ccmaduabuchi/data/vbench/temporal_flickering.json',
-#     'repeat_times': 5,
-# }
-
-# # For EvalCrafter
-# infer_dataset: {
-#     'type': 'InferenceDatasetEvalCrafter',
-#     'csv_path': '/sciclone/data10/ccmaduabuchi/data/evalcrafter/evalcrafter_prompts.csv',
-#     'repeat_times': 1,
 # }
 
 embedder: {
@@ -143,13 +128,13 @@ Diffusion: {
 
 
 
-guide_scale: 5.5
+guide_scale: 11
 
 ## vqa encode&decode scale
 scale: 8
 
 # Log
-log_dir: "/sciclone/data10/ccmaduabuchi/inference/guidance_scale/msrvtt/gaussian_20_guidance5.5"
+log_dir: "/sciclone/data10/ccmaduabuchi/inference/guidance_scale/msrvtt/gaussian_20_guidance11"
 
 
 

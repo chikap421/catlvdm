@@ -1,17 +1,18 @@
 <h1 align="center">CAT-LVDM: Corruption-Aware Training of Latent Video Diffusion Models</h1>
 
 <p align="center">
-  <b><a href="https://scholar.google.com/citations?user=YrLydoQAAAAJ&hl=en/">Chika Maduabuchi</a></b>,
-  <b><a href="https://hhhhhhao.github.io/">Hao Chen</a></b>,
-  <b><a href="https://yujinhanml.github.io/">Yujin Han</a></b>,
-  <b><a href="https://jd92.wang/">Jindong Wang</a></b>
-</p>
-
-<p align="center">
-  <a href="https://github.com/chikap421/catlvdm"><img src="https://img.shields.io/badge/Project-Page-green?style=flat-square&logo=github"></a>
-  <a href="https://arxiv.org/abs/2405.12345"><img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=flat-square&logo=arxiv"></a>
-  <a href="https://huggingface.co/Chikap421/catlvdm-checkpoints/tree/main"><img src="https://img.shields.io/badge/Model-HuggingFace-blue?style=flat-square&logo=huggingface"></a>
-  <a href="https://colab.research.google.com/github/catlvdm/demo/blob/main/notebook.ipynb"><img src="https://img.shields.io/badge/Demo-Colab-orange?style=flat-square&logo=googlecolab"></a>
+  <a href="https://github.com/chikap421/catlvdm">
+    <img src="https://img.shields.io/badge/Project-Page-green?style=flat-square&logo=github">
+  </a>
+  <a href="https://arxiv.org/abs/2405.12345">
+    <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=flat-square">
+  </a>
+  <a href="https://huggingface.co/Chikap421/catlvdm-checkpoints/tree/main">
+    <img src="https://img.shields.io/badge/Model-HuggingFace-blue?style=flat-square">
+  </a>
+  <a href="https://colab.research.google.com/github/catlvdm/demo/blob/main/notebook.ipynb">
+    <img src="https://img.shields.io/badge/Demo-Colab-orange?style=flat-square">
+  </a>
 </p>
 
 <p align="center">

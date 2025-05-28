@@ -176,6 +176,19 @@ The folder `results_2M_train` is used to denote the clean (non-corrupted) traini
 | `perturb`     | Text Perturbation    | Replaces tokens with visually or semantically noisy variants. |
 
 
+---
+
+##### 📈 Benchmark Performance
+
+To evaluate the robustness and generation quality of CAT-LVDM, we compare our models (BCNI and SACN) against existing state-of-the-art text-to-video diffusion models using the Fréchet Video Distance (FVD) metric. Lower FVD indicates better visual fidelity and temporal coherence.
+
+<p align="center">
+  <img src="assets/benchmark_fvd_scatter.jpg" width="800"/>
+</p>
+
+<p align="center"><i>Figure: FVD scores on MSR-VTT and UCF101 benchmarks comparing CAT-LVDM variants (BCNI, SACN) to other leading video generation models. Our methods consistently outperform existing baselines across datasets.</i></p>
+
+---
 
 
 ### 3. Inference

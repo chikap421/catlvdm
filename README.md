@@ -4,7 +4,7 @@
   <a href="https://github.com/chikap421/catlvdm">
     <img src="https://img.shields.io/badge/Project-Page-green?style=flat-square&logo=github">
   </a>
-  <a href="https://arxiv.org/abs/2405.12345">
+  <a href="https://arxiv.org/abs/2505.21545">
     <img src="https://img.shields.io/badge/Paper-arXiv-b31b1b?style=flat-square">
   </a>
   <a href="https://huggingface.co/Chikap421/catlvdm-checkpoints/tree/main">
@@ -19,6 +19,11 @@
   <i>This repository contains the code for CAT-LVDM: a corruption-aware training framework for robust latent video diffusion models.</i>
 </p>
 
+## 📰 News
+
+- 📄 **May 29, 2025**: Uploaded full paper to [arXiv](https://arxiv.org/abs/2505.21545)
+- 💾 **May 26, 2025**: Released CAT-LVDM checkpoints on [Hugging Face](https://huggingface.co/Chikap421/catlvdm-checkpoints)
+- 🛠️ **May 24, 2025**: Released initial codebase and training scripts
 ---
 
 <p align="center">
@@ -264,14 +269,28 @@ tensorboard --logdir=tensorboard_log/catlvdm
 - [x] Structured corruption injection
 - [x] Full benchmark on 4 datasets
 - [x] Model checkpoints release
-- [ ] arXiv upload
+- [x] arXiv upload
 - [ ] Collab Demo
 - [ ] Model evaluation
 
 
 
 
+## 📖 Citation
 
+If you use CAT-LVDM in your research, please cite:
+
+```bibtex
+@misc{maduabuchi2025corruptionawaretraininglatentvideo,
+      title={Corruption-Aware Training of Latent Video Diffusion Models for Robust Text-to-Video Generation}, 
+      author={Chika Maduabuchi and Hao Chen and Yujin Han and Jindong Wang},
+      year={2025},
+      eprint={2505.21545},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2505.21545}, 
+}
+```
 
 
 <!-- LICENSE -->

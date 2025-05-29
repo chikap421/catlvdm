@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use CAT-LVDM in your research, please cite the following paper:"
+title: "Corruption-Aware Training of Latent Video Diffusion Models for Robust Text-to-Video Generation"
+authors:
+  - family-names: Maduabuchi
+    given-names: Chika
+  - family-names: Chen
+    given-names: Hao
+  - family-names: Han
+    given-names: Yujin
+  - family-names: Wang
+    given-names: Jingdong
+date-released: 2025-05-29
+version: 1.0.0
+identifiers:
+  - type: arXiv
+    value: 2505.21545
+repository-code: https://github.com/chikap421/catlvdm
+url: https://arxiv.org/abs/2505.21545

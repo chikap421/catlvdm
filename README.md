@@ -20,7 +20,7 @@
 </p>
 
 ## 📰 News
-
+- 📄 **July 9, 2025**: Uploaded ACVSS presentation
 - 📄 **May 29, 2025**: Uploaded full paper to [arXiv](https://arxiv.org/abs/2505.21545)
 - 💾 **May 26, 2025**: Released CAT-LVDM checkpoints on [Hugging Face](https://huggingface.co/Chikap421/catlvdm-checkpoints)
 - 🛠️ **May 24, 2025**: Released initial codebase and training scripts

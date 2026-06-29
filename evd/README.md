@@ -50,3 +50,5 @@ gated_update, info = evd.forward_from_dit_outputs(
     t=t,
 )
 ```
+
+This code documents the EVD mechanism used in the paper; it does not include private training data, private checkpoints, or the full-scale DiT-30B training stack.

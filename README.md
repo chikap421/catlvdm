@@ -19,6 +19,27 @@
   <i>This repository contains the code for CAT-LVDM: a corruption-aware training framework for robust latent video diffusion models.</i>
 </p>
 
+## Event-Driven Video Generation (EVD)
+
+This repository includes the reference implementation of **Event-Driven Video Generation (EVD)**, accepted to ECCV 2026. EVD adds an event head, event-grounded training losses, and event-gated sampling with smoothing, hysteresis, and an early-step schedule.
+
+Supported integrations:
+- CAT-LVDM / 3D U-Net backbones via `CATLVDMEVDAdapter`
+- video DiT / STDiT-style backbones via `STDiTEVDAdapter`
+- CPU, single-GPU, and multi-GPU integration checks
+
+```bash
+python examples/evd_catlvdm_train_step.py
+python examples/evd_catlvdm_inference_step.py
+python examples/evd_stdit_adapter.py
+bash scripts/evd_check_multigpu.sh
+python -m pytest tests/test_evd_* -q
+```
+
+See [`evd/README.md`](evd/README.md) for the compact API reference.
+
+This code documents the EVD mechanism used in the paper; it does not include private training data, private checkpoints, or the full-scale DiT-30B training stack.
+
 ## 📰 News
 - 📄 **July 9, 2025**: Uploaded ACVSS presentation
 - 📄 **May 29, 2025**: Uploaded full paper to [arXiv](https://arxiv.org/abs/2505.21545)

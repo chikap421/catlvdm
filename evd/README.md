@@ -6,7 +6,7 @@ The implementation supports:
 
 - CAT-LVDM / 3D U-Net backbones via `CATLVDMEVDAdapter`
 - video DiT / STDiT-style backbones via `STDiTEVDAdapter`
-- CPU, single-GPU, and 2-GPU integration checks
+- CPU, single-GPU, and multi-GPU integration checks
 
 Run from the repository root:
 
@@ -14,9 +14,11 @@ Run from the repository root:
 python examples/evd_catlvdm_train_step.py
 python examples/evd_catlvdm_inference_step.py
 python examples/evd_stdit_adapter.py
-torchrun --nproc_per_node=2 examples/evd_train_2gpu.py
+bash scripts/evd_check_multigpu.sh
 python -m pytest tests/test_evd_* -q
 ```
+
+Set `NPROC_PER_NODE` to choose the number of local processes, for example `NPROC_PER_NODE=4 bash scripts/evd_check_multigpu.sh`.
 
 Use EVD in training:
 
@@ -48,5 +50,3 @@ gated_update, info = evd.forward_from_dit_outputs(
     t=t,
 )
 ```
-
-This code documents and supports the EVD mechanism. It does not include private training data, private checkpoints, or the full-scale DiT-30B training stack used in the paper.

@@ -50,7 +50,7 @@ def main() -> None:
         reduced_loss = all_reduce_mean(loss.detach().clone())
         if get_rank() == 0:
             print(
-                "2-GPU integration check passed. "
+                "Multi-GPU integration check passed. "
                 f"world_size={get_world_size()} loss={float(reduced_loss):.6f}"
             )
     finally:

@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <i>This repository contains the code for CAT-LVDM: a corruption-aware training framework for robust latent video diffusion models.</i>
+  <i>Reference code for CAT-LVDM and Event-Driven Video Generation (EVD), including the ECCV 2026 EVD training/inference modules.</i>
 </p>
 
 ## Event-Driven Video Generation (EVD)

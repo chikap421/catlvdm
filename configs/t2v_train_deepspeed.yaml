@@ -100,6 +100,20 @@ Diffusion: {
     'noise_strength': 0.0
 }
 
+# Optional EVD reference settings. Existing training code ignores this block
+# unless an integration explicitly opts in.
+evd:
+  enable_evd: false
+  beta: 12.0
+  tau_on: 0.62
+  tau_off: 0.38
+  t_star: 0.60
+  lambda_real: 0.12
+  lambda_cons: 0.08
+  lambda_order: 0.03
+  event_dropout: 0.25
+  smooth_kernel: 3
+
 
 Pretrain: {
     'type': load_model,

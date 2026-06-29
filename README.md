@@ -299,6 +299,18 @@ tensorboard --logdir=tensorboard_log/catlvdm
 
 ## 📖 Citation
 
+If you use EVD in your research, please cite:
+
+```bibtex
+@inproceedings{maduabuchi2026eventdriven,
+      title={Event-Driven Video Generation},
+      author={Chika Maduabuchi and Jindong Wang},
+      booktitle={European Conference on Computer Vision (ECCV)},
+      year={2026},
+      url={https://evd-project-website.pages.dev},
+}
+```
+
 If you use CAT-LVDM in your research, please cite:
 
 ```bibtex

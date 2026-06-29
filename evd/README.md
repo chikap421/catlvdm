@@ -51,3 +51,16 @@ gated_update, info = evd.forward_from_dit_outputs(
 )
 ```
 
+This code documents the EVD mechanism used in the paper; it does not include private training data, private checkpoints, or the full-scale DiT-30B training stack.
+
+## Citation
+
+```bibtex
+@inproceedings{maduabuchi2026eventdriven,
+      title={Event-Driven Video Generation},
+      author={Chika Maduabuchi and Jindong Wang},
+      booktitle={European Conference on Computer Vision (ECCV)},
+      year={2026},
+      url={https://evd-project-website.pages.dev},
+}
+```

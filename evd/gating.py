@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, Union
 
 import torch
 import torch.nn.functional as F
@@ -117,10 +117,10 @@ class EVDGateState:
         t: Optional[Union[float, torch.Tensor]] = None,
         t_star: float = 0.60,
         smooth_kernel: int = 3,
-    ) -> Tuple[torch.Tensor, torch.Tensor]:
+    ) -> Tuple[torch.Tensor, torch.Tensor, Dict[str, torch.Tensor]]:
         """Compute a gate using the stored previous hysteresis state."""
 
-        final_gate, binary_gate = make_evd_gate(
+        final_gate, binary_gate, diagnostics = make_evd_gate(
             activity=activity,
             prev_gate=self.prev_gate,
             beta=beta,
@@ -131,7 +131,7 @@ class EVDGateState:
             smooth_kernel=smooth_kernel,
         )
         self.update(binary_gate)
-        return final_gate, binary_gate
+        return final_gate, binary_gate, diagnostics
 
 
 def make_evd_gate(
@@ -143,8 +143,8 @@ def make_evd_gate(
     t: Optional[Union[float, torch.Tensor]] = None,
     t_star: float = 0.60,
     smooth_kernel: int = 3,
-) -> Tuple[torch.Tensor, torch.Tensor]:
-    """Create the final EVD gate and updated binary hysteresis state."""
+) -> Tuple[torch.Tensor, torch.Tensor, Dict[str, torch.Tensor]]:
+    """Create the final EVD gate, binary state, and diagnostics."""
 
     smoothed = spatial_smooth_3d(activity, kernel_size=smooth_kernel)
     differentiable_gate = soft_gate(smoothed, beta=beta, tau_on=tau_on, tau_off=tau_off)
@@ -152,4 +152,11 @@ def make_evd_gate(
     final_gate = differentiable_gate * binary_gate
     if t is not None:
         final_gate = scheduled_gate(final_gate, t=t, t_star=t_star)
-    return final_gate, binary_gate
+    diagnostics = {
+        "activity": activity,
+        "smoothed_activity": smoothed,
+        "soft_gate": differentiable_gate,
+        "binary_gate": binary_gate,
+        "final_gate": final_gate,
+    }
+    return final_gate, binary_gate, diagnostics

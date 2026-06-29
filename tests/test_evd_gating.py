@@ -5,11 +5,13 @@ from evd import hysteresis_gate, make_evd_gate, scheduled_gate
 
 def test_gate_outputs_are_in_unit_interval() -> None:
     activity = torch.rand(2, 1, 3, 8, 8)
-    final_gate, binary_gate = make_evd_gate(activity, t=0.5)
+    final_gate, binary_gate, diagnostics = make_evd_gate(activity, t=0.5)
 
     assert torch.all(final_gate >= 0.0)
     assert torch.all(final_gate <= 1.0)
     assert torch.all((binary_gate == 0.0) | (binary_gate == 1.0))
+    assert diagnostics["final_gate"].shape == activity.shape
+    assert diagnostics["soft_gate"].shape == activity.shape
 
 
 def test_hysteresis_keeps_previous_state_inside_threshold_band() -> None:

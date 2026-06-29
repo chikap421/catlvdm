@@ -1,6 +1,8 @@
 """Compact Event-Driven Video Generation reference implementation."""
 
-from .event_head import EventHead3D
+from .adapters import CATLVDMEVDAdapter, STDiTEVDAdapter
+from .config import EVDConfig
+from .event_head import EventHead3D, EventHeadTokens
 from .gating import (
     EVDGateState,
     hysteresis_gate,
@@ -20,9 +22,13 @@ from .wrappers import CATLVDMEVDWrapper, GenericDiTEVDAdapter
 
 __all__ = [
     "CATLVDMEVDWrapper",
+    "CATLVDMEVDAdapter",
+    "EVDConfig",
     "EVDGateState",
     "EventHead3D",
+    "EventHeadTokens",
     "GenericDiTEVDAdapter",
+    "STDiTEVDAdapter",
     "apply_evd_to_update",
     "evd_guided_update",
     "evd_total_loss",

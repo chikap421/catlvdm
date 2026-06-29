@@ -1,4 +1,4 @@
-"""Event head used by the public EVD video reference implementation."""
+"""Event heads used by the public EVD video reference implementation."""
 
 from __future__ import annotations
 
@@ -70,3 +70,64 @@ class EventHead3D(nn.Module):
 
         _, event_activity = self.forward(update_or_features)
         return event_activity
+
+
+class EventHeadTokens(nn.Module):
+    """Predict event activity from DiT/STDiT token features.
+
+    The input shape is ``[B, N, D]`` and the output is token-aligned event
+    logits/activity with shape ``[B, N, 1]``. Adapters reshape the token activity
+    back to ``[B, 1, T, H, W]`` using patch-grid metadata.
+    """
+
+    def __init__(
+        self,
+        token_dim: int,
+        hidden_dim: Optional[int] = None,
+        detach_input: bool = False,
+    ) -> None:
+        super().__init__()
+        if token_dim <= 0:
+            raise ValueError("token_dim must be positive")
+        hidden = int(hidden_dim or min(256, token_dim))
+        if hidden <= 0:
+            raise ValueError("hidden_dim must be positive")
+
+        self.token_dim = int(token_dim)
+        self.hidden_dim = hidden
+        self.detach_input = detach_input
+        self.net = nn.Sequential(
+            nn.LayerNorm(self.token_dim),
+            nn.Linear(self.token_dim, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, 1),
+        )
+        self.reset_parameters()
+
+    def reset_parameters(self) -> None:
+        """Initialize the final token projection near zero."""
+
+        final = self.net[-1]
+        if isinstance(final, nn.Linear):
+            nn.init.normal_(final.weight, mean=0.0, std=1.0e-5)
+            nn.init.zeros_(final.bias)
+
+    def forward(self, token_features: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Return ``(event_logits, event_activity)`` for ``[B, N, D]`` tokens."""
+
+        if not torch.is_tensor(token_features):
+            raise TypeError("token_features must be a torch.Tensor")
+        if token_features.ndim != 3:
+            raise ValueError(
+                "token_features must have shape [B, N, D], "
+                f"got {tuple(token_features.shape)}"
+            )
+        if token_features.shape[-1] != self.token_dim:
+            raise ValueError(
+                f"token_features last dim must be {self.token_dim}, "
+                f"got {token_features.shape[-1]}"
+            )
+        x = token_features.detach() if self.detach_input else token_features
+        event_logits = self.net(x)
+        event_activity = torch.sigmoid(event_logits)
+        return event_logits, event_activity

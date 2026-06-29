@@ -7,7 +7,8 @@ from evd import CATLVDMEVDWrapper, EventHead3D, GenericDiTEVDAdapter, apply_evd_
 class TinyVideoModel(nn.Module):
     out_dim = 4
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, t: torch.Tensor, y=None) -> torch.Tensor:
+        del t, y
         return 2.0 * x
 
 
@@ -33,29 +34,30 @@ def test_apply_evd_to_update_preserves_shape() -> None:
     assert diagnostics["final_gate"].shape == activity.shape
 
 
-def test_catlvdm_wrapper_preserves_disabled_behavior() -> None:
+def test_catlvdm_wrapper_alias_preserves_disabled_behavior() -> None:
     x = torch.randn(2, 4, 3, 8, 8)
+    t = torch.randint(0, 1000, (2,))
     wrapper = CATLVDMEVDWrapper(TinyVideoModel(), enable_evd=False)
 
-    out = wrapper(x)
+    out = wrapper(x, t)
 
     assert torch.allclose(out, 2.0 * x)
 
 
-def test_catlvdm_wrapper_training_outputs_shapes() -> None:
+def test_catlvdm_wrapper_alias_training_outputs_shapes() -> None:
     x = torch.randn(2, 4, 3, 8, 8)
+    t = torch.randint(0, 1000, (2,))
     wrapper = CATLVDMEVDWrapper(TinyVideoModel(), enable_evd=True)
-    wrapper.train()
 
-    out = wrapper(x, target_update=torch.zeros_like(x))
+    out = wrapper.forward_train(x, t, base_target=torch.zeros_like(x))
 
     assert out["pred_update"].shape == x.shape
     assert out["event_logits"].shape == (2, 1, 3, 8, 8)
     assert out["event_activity"].shape == (2, 1, 3, 8, 8)
-    assert out["loss"].ndim == 0
+    assert out["losses"]["total"].ndim == 0
 
 
-def test_generic_dit_adapter_token_activity_shapes() -> None:
+def test_generic_dit_adapter_alias_token_activity_shapes() -> None:
     adapter = GenericDiTEVDAdapter(token_dim=16)
     token_features = torch.randn(2, 3 * 4 * 5, 16)
 

@@ -2,28 +2,40 @@ import sys
 from pathlib import Path
 
 import torch
+from torch import nn
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from evd import EVDGateState, EventHead3D, evd_guided_update
+from evd import EVDGateState
+from evd.adapters import CATLVDMEVDAdapter
+
+
+class TinyVideoUNet(nn.Module):
+    out_dim = 4
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.net = nn.Conv3d(4, 4, kernel_size=3, padding=1)
+
+    def forward(self, x: torch.Tensor, t: torch.Tensor, y=None) -> torch.Tensor:
+        del t, y
+        return self.net(x)
 
 
 def main() -> None:
     torch.manual_seed(11)
-    cond_update = torch.randn(2, 4, 4, 16, 16)
-    uncond_update = torch.randn(2, 4, 4, 16, 16)
-    event_head = EventHead3D(in_channels=4)
+    x = torch.randn(2, 4, 4, 16, 16)
+    t = torch.full((2,), 0.80)
+    model = CATLVDMEVDAdapter(TinyVideoUNet(), enable_evd=True, in_channels=4)
+    model.eval()
     gate_state = EVDGateState()
 
-    gated_update, diagnostics = evd_guided_update(
-        cond_update,
-        uncond_update,
-        cfg_scale=4.0,
-        event_head=event_head,
+    gated_update, diagnostics = model.forward_sample(
+        x=x,
+        t=t,
         gate_state=gate_state,
-        t=0.80,
     )
 
     final_gate = diagnostics["final_gate"]

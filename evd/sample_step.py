@@ -9,10 +9,7 @@ from torch import nn
 
 from .gating import (
     EVDGateState,
-    hysteresis_gate,
-    scheduled_gate,
-    soft_gate,
-    spatial_smooth_3d,
+    make_evd_gate,
 )
 from .utils import validate_video_tensor
 
@@ -33,24 +30,19 @@ def apply_evd_to_update(
     validate_video_tensor(pred_update, "pred_update")
     validate_video_tensor(event_activity, "event_activity", channels=1)
 
-    smoothed = spatial_smooth_3d(event_activity, kernel_size=smooth_kernel)
-    differentiable_gate = soft_gate(smoothed, beta=beta, tau_on=tau_on, tau_off=tau_off)
     prev_gate = gate_state.prev_gate if gate_state is not None else None
-    binary_gate = hysteresis_gate(smoothed, prev_gate=prev_gate, tau_on=tau_on, tau_off=tau_off)
-    final_gate = differentiable_gate * binary_gate
-    if t is not None:
-        final_gate = scheduled_gate(final_gate, t=t, t_star=t_star)
-
+    final_gate, binary_gate, diagnostics = make_evd_gate(
+        event_activity,
+        prev_gate=prev_gate,
+        beta=beta,
+        tau_on=tau_on,
+        tau_off=tau_off,
+        t=t,
+        t_star=t_star,
+        smooth_kernel=smooth_kernel,
+    )
     if gate_state is not None:
         gate_state.update(binary_gate)
-
-    diagnostics = {
-        "activity": event_activity,
-        "smoothed_activity": smoothed,
-        "soft_gate": differentiable_gate,
-        "binary_gate": binary_gate,
-        "final_gate": final_gate,
-    }
     return final_gate * pred_update, diagnostics
 
 

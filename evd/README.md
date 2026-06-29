@@ -1,79 +1,52 @@
-# Event-Driven Video Generation (EVD) Reference
+# Event-Driven Video Generation (EVD)
 
-This directory contains a compact, readable reference implementation of Event-Driven Video Generation (EVD). It is designed to be usable as a standalone project or as a small package embedded inside CAT-LVDM.
+This directory contains the reference implementation of Event-Driven Video Generation (EVD), accepted to ECCV 2026. EVD adds three components to a video generator: an event head, event-grounded training losses, and event-gated sampling with smoothing, hysteresis, and an early-step schedule.
 
-EVD can be attached to an existing video generator by adding:
+The implementation supports:
 
-1. an event head,
-2. event-grounded losses during training,
-3. event-gated update modification during sampling.
+- CAT-LVDM / 3D U-Net backbones via `CATLVDMEVDAdapter`
+- video DiT / STDiT-style backbones via `STDiTEVDAdapter`
+- CPU, single-GPU, and 2-GPU integration checks
 
-This implementation provides a CAT-LVDM/3D-U-Net wrapper and a generic DiT adapter skeleton. It shows how to wire EVD into training and inference without releasing private training data, private weights, or full-scale private experiments.
-
-## Contents
-
-- `event_head.py`: lightweight 3D event head for video update fields.
-- `gating.py`: spatial smoothing, soft activation, hysteresis, and sampler scheduling.
-- `losses.py`: public reference EVD training losses.
-- `sample_step.py`: inference-time update gating and CFG helper.
-- `train_step.py`: minimal training-step helper.
-- `wrappers.py`: CAT-LVDM wrapper and generic DiT adapter.
-- `utils.py`: shared tensor validation and reshape helpers.
-
-## Usage
-
-From the CAT-LVDM repository root:
+Run from the repository root:
 
 ```bash
 python examples/evd_catlvdm_train_step.py
 python examples/evd_catlvdm_inference_step.py
-python examples/evd_generic_dit_adapter.py
+python examples/evd_stdit_adapter.py
+torchrun --nproc_per_node=2 examples/evd_train_2gpu.py
 python -m pytest tests/test_evd_* -q
 ```
 
-Minimal training-side use:
+Use EVD in training:
 
 ```python
-import torch
+from evd.adapters import CATLVDMEVDAdapter
 
-from evd import EventHead3D, evd_total_loss
-
-pred_update = torch.randn(2, 4, 4, 16, 16, requires_grad=True)
-event_head = EventHead3D(in_channels=4)
-
-_, activity = event_head(pred_update)
-base_loss = pred_update.square().mean()
-loss, components = evd_total_loss(base_loss, pred_update, activity)
+model = CATLVDMEVDAdapter(base_model, enable_evd=True)
+out = model.forward_train(x, t, y=y, base_target=target)
+loss = out["losses"]["total"]
 loss.backward()
 ```
 
-Minimal inference-side use:
+Use EVD in sampling:
 
 ```python
-import torch
+gated_update, info = model.forward_sample(x=x, t=t, y=y, gate_state=gate_state)
+```
 
-from evd import EVDGateState, EventHead3D, evd_guided_update
+For DiT/STDiT-style backbones:
 
-cond_update = torch.randn(2, 4, 4, 16, 16)
-uncond_update = torch.randn(2, 4, 4, 16, 16)
-event_head = EventHead3D(in_channels=4)
+```python
+from evd.adapters import STDiTEVDAdapter
 
-gated_update, diagnostics = evd_guided_update(
-    cond_update,
-    uncond_update,
-    cfg_scale=4.0,
-    event_head=event_head,
-    gate_state=EVDGateState(),
-    t=0.80,
+evd = STDiTEVDAdapter(token_dim=hidden_size)
+gated_update, info = evd.forward_from_dit_outputs(
+    update=update,
+    token_features=final_tokens,
+    grid_shape=(T, H, W),
+    t=t,
 )
 ```
 
-## Standalone Extraction
-
-The `evd/` package only depends on PyTorch. To use it in another video generation codebase, copy this directory into that project, then instantiate `EventHead3D` on a predicted update/noise/velocity tensor shaped `[B, C, T, H, W]`.
-
-For DiT-style pipelines, use `GenericDiTEVDAdapter` when final token features are available. Otherwise, use the update-field event head directly.
-
-## Scope
-
-This is public reference code for the EVD mechanism: event activity prediction, event-grounded losses, and event-gated sampling. It is not a release of private training data or private weights, and it is not intended to reproduce every full-scale paper number by itself.
+This code documents and supports the EVD mechanism. It does not include private training data, private checkpoints, or the full-scale DiT-30B training stack used in the paper.

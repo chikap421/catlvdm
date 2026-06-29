@@ -103,7 +103,7 @@ Diffusion: {
 # Optional EVD reference settings. Existing training code ignores this block
 # unless an integration explicitly opts in.
 evd:
-  enable_evd: false
+  enable: false
   beta: 12.0
   tau_on: 0.62
   tau_off: 0.38
@@ -113,6 +113,7 @@ evd:
   lambda_order: 0.03
   event_dropout: 0.25
   smooth_kernel: 3
+  cfg_scale: 4.0
 
 
 Pretrain: {
